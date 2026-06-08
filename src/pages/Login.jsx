@@ -18,7 +18,10 @@ function Login() {
     setMessage(null);
 
     if (!email || !password) {
-      setMessage({ text: "Please fill all fields", type: "error" });
+      setMessage({
+        text: "Please fill all fields",
+        type: "error",
+      });
       return;
     }
 
@@ -26,7 +29,7 @@ function Login() {
       console.log("Sending request...");
 
       const response = await fetch(
-        "http://localhost:5001/api/auth/login",
+        "https://pravio.onrender.com/api/auth/login",
         {
           method: "POST",
           headers: {
@@ -61,9 +64,15 @@ function Login() {
         JSON.stringify(data.user)
       );
 
-      setMessage({ text: "Login successful!", type: "success" });
+      setMessage({
+        text: "Login successful!",
+        type: "success",
+      });
 
-      setTimeout(() => navigate("/dashboard"), 1200);
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 1200);
+
     } catch (error) {
       console.error(error);
 
@@ -101,8 +110,11 @@ function Login() {
 
       <div className="auth-page">
         <div className="auth-card">
+
           {message && (
-            <div className={`auth-message auth-message--${message.type}`}>
+            <div
+              className={`auth-message auth-message--${message.type}`}
+            >
               {message.text}
             </div>
           )}
@@ -125,9 +137,7 @@ function Login() {
             }
           />
 
-          <button
-            onClick={handleLogin}
-          >
+          <button onClick={handleLogin}>
             Login
           </button>
 
@@ -137,6 +147,7 @@ function Login() {
               Create Account
             </a>
           </p>
+
         </div>
       </div>
     </>

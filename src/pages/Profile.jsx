@@ -13,8 +13,7 @@ import "../styles/cards.css";
 import "../styles/settings.css";
 import "../styles/profile.css";
 
-const API_URL = "http://localhost:5001/api/auth";
-
+const API_URL = "https://pravio.onrender.com/api/auth";
 function getInitials(name = "") {
   return name
     .split(" ")

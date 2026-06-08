@@ -6,6 +6,9 @@ import {
 
 export const TaskContext = createContext();
 
+const API_URL =
+  "https://pravio.onrender.com/api/tasks";
+
 export function TaskProvider({
   children,
 }) {
@@ -23,7 +26,7 @@ export function TaskProvider({
     try {
       const response =
         await fetch(
-          "http://localhost:5001/api/tasks",
+          API_URL,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -46,7 +49,7 @@ export function TaskProvider({
     try {
       const response =
         await fetch(
-          "http://localhost:5001/api/tasks",
+          API_URL,
           {
             method: "POST",
 
@@ -103,7 +106,7 @@ export function TaskProvider({
       try {
         const response =
           await fetch(
-            `http://localhost:5001/api/tasks/${id}`,
+            `${API_URL}/${id}`,
             {
               method: "PUT",
 
@@ -141,7 +144,7 @@ export function TaskProvider({
     async (id) => {
       try {
         await fetch(
-          `http://localhost:5001/api/tasks/${id}`,
+          `${API_URL}/${id}`,
           {
             method: "DELETE",
 
@@ -171,7 +174,7 @@ export function TaskProvider({
       try {
         const response =
           await fetch(
-            `http://localhost:5001/api/tasks/${id}`,
+            `${API_URL}/${id}`,
             {
               method: "PUT",
 
