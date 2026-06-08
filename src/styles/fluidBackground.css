@@ -1,0 +1,110 @@
+.fluid-bg{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  z-index:-1;
+
+  background:
+  radial-gradient(
+    circle at 10% 90%,
+    #00a7c7 0%,
+    #00b9d5 18%,
+    transparent 45%
+  ),
+
+  radial-gradient(
+    circle at 75% 30%,
+    rgba(255,240,150,.65) 0%,
+    transparent 25%
+  ),
+
+  radial-gradient(
+    circle at 85% 80%,
+    #8ad8f6 0%,
+    transparent 40%
+  ),
+
+  linear-gradient(
+    135deg,
+    #b9efe5 0%,
+    #89ddd7 35%,
+    #b8efcb 65%,
+    #b7e6ff 100%
+  );
+}
+
+
+.glow{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(120px);
+}
+
+.glow-1{
+  width:420px;
+  height:420px;
+
+  top:18%;
+  right:12%;
+
+  background:
+  rgba(255,235,140,.45);
+}
+
+.glow-2{
+  width:300px;
+  height:300px;
+
+  bottom:12%;
+  left:28%;
+
+  background:
+  rgba(255,230,120,.30);
+}
+
+.fluid-waves{
+    position:absolute;
+    inset:0;
+
+    width:140%;
+    height:100%;
+
+    left:-20%;
+
+    opacity:.95;
+}
+
+.layer{
+    stroke:none;
+}
+
+.layer1{
+  fill:rgba(255,255,255,0.18);
+}
+
+.layer2{
+  fill:rgba(255,255,255,0.13);
+}
+
+.layer3{
+    fill:rgba(255,255,255,0.08);
+}
+
+.layer4{
+    fill:rgba(255,255,255,0.06);
+}
+
+.layer5{
+    fill:rgba(255,255,255,0.04);
+}
+.layer6{
+  fill: rgba(255,255,255,0.07);
+}
+
+.layer7{
+  fill: rgba(255,255,255,0.05);
+}
+
+.layer8{
+  fill: rgba(255,255,255,0.03);
+}

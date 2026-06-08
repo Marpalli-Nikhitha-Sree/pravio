@@ -1,0 +1,155 @@
+.background-container {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: -1;
+
+  background:
+radial-gradient(
+    circle at 10% 90%,
+      #00a7c7 0%,
+      #00b9d5 15%,
+      transparent 40%
+    ),
+
+    radial-gradient(
+      circle at 80% 75%,
+      #86d8f5 0%,
+      transparent 40%
+    ),
+
+    radial-gradient(
+      circle at 72% 28%,
+      rgba(255,235,150,0.8) 0%,
+      transparent 20%
+    ),
+
+    radial-gradient(
+      circle at 32% 72%,
+      rgba(255,230,120,0.6) 0%,
+      transparent 20%
+    ),
+
+    linear-gradient(
+      135deg,
+      #b8efe3 0%,
+      #87ded6 35%,
+      #b7efc7 65%,
+      #b5e5ff 100%
+    );
+}
+
+.background-container::before{
+  content:"";
+
+  position:absolute;
+
+  width:180%;
+  height:65%;
+
+  top:10%;
+  left:-40%;
+
+  border-radius:50%;
+
+  background:
+  rgba(255,255,255,0.12);
+
+  filter: blur(60px);
+
+  opacity:0.4;
+}
+
+.sun {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+}
+
+.sun-1{
+  width:400px;
+  height:400px;
+
+  top:20%;
+  right:15%;
+
+  background:
+  radial-gradient(
+    circle,
+    rgba(255,240,150,0.45) 0%,
+    rgba(255,240,150,0.15) 40%,
+    transparent 70%
+  );
+
+  filter: blur(100px);
+}
+
+.sun-2 {
+  width: 250px;
+  height: 250px;
+
+  bottom: 18%;
+  left: 28%;
+
+  background: rgba(255,225,110,0.65);
+}
+
+.waves{
+  position:absolute;
+
+  top:0;
+  left:-15%;
+
+  width:130%;
+  height:100%;
+
+  opacity:0.75;
+
+  filter:blur(0.4px);
+
+  animation:floatWave 20s ease-in-out infinite;
+}
+
+.waves{
+    opacity:0.75;
+    filter: blur(0.4px);
+}
+
+@keyframes floatWave {
+  0%{
+    transform: translateX(0px);
+  }
+
+  50%{
+    transform: translateX(-18px);
+  }
+
+  100%{
+    transform: translateX(0px);
+  }
+}
+
+.waves{
+  animation: floatWave 20s ease-in-out infinite;
+}
+
+.wave-fill{
+    fill: rgba(255,255,255,0.06);
+}
+
+.wave-fill-1{
+    fill: rgba(255,255,255,0.12);
+}
+
+.wave-fill-2{
+    fill: rgba(255,255,255,0.08);
+}
+
+.wave-fill-3{
+    fill: rgba(255,255,255,0.04);
+}
+
+.wave-fill{
+    stroke: rgba(255,255,255,0.18);
+    stroke-width: 2;
+}

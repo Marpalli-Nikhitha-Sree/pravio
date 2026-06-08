@@ -1,0 +1,136 @@
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:25px 40px;
+}
+
+/* RIGHT SECTION */
+
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:16px;
+}
+
+/* LOGO */
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    color:#ffffff;
+
+    font-size:2rem;
+
+    font-weight:800;
+
+    letter-spacing:1px;
+
+    text-shadow:
+    0 4px 25px rgba(255,255,255,.15);
+}
+
+.logo i{
+    font-size:1.8rem;
+
+    color:#00c2ff;
+
+    filter:drop-shadow(
+    0 0 10px rgba(0,194,255,.35)
+    );
+}
+
+/* USER BADGE */
+
+.user-badge{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    padding:12px 18px;
+
+    border-radius:16px;
+
+    background:rgba(255,255,255,.14);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.18);
+
+    color:#ffffff;
+
+    font-weight:600;
+
+    box-shadow:
+    0 8px 20px rgba(255,255,255,.05);
+}
+
+.user-badge i{
+    font-size:20px;
+
+    color:#7df9ff;
+}
+
+/* LOGOUT BUTTON */
+
+.create-project-btn{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    padding:12px 18px;
+
+    border:none;
+
+    border-radius:16px;
+
+    cursor:pointer;
+
+    background:rgba(255,255,255,.14);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.18);
+
+    color:#ffffff;
+
+    font-weight:600;
+
+    transition:.3s ease;
+
+    box-shadow:
+    0 8px 20px rgba(255,255,255,.05);
+}
+
+.create-project-btn:hover{
+    transform:translateY(-3px);
+
+    background:rgba(255,255,255,.22);
+
+    box-shadow:
+    0 12px 28px rgba(255,255,255,.08);
+}
+
+.create-project-btn i{
+    color:#7df9ff;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+    .navbar{
+        padding:20px;
+    }
+
+    .user-badge span{
+        display:none;
+    }
+
+    .logo{
+        font-size:1.6rem;
+    }
+}

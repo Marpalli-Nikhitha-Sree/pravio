@@ -1,0 +1,239 @@
+.stats-grid{
+    width:100%;
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(180px,1fr));
+
+    gap:20px;
+}
+
+/* STATS */
+
+.stat-card{
+    backdrop-filter:blur(30px);
+
+    background:rgba(255,255,255,.18);
+
+    border:1px solid rgba(255,255,255,.22);
+
+    border-radius:26px;
+
+    padding:25px;
+
+    transition:.3s ease;
+
+    cursor:pointer;
+
+    color:#24486b;
+}
+
+.stat-card:hover{
+    transform:translateY(-6px);
+
+    background:rgba(255,255,255,.24);
+
+    box-shadow:
+    0 12px 30px rgba(0,194,255,.10);
+}
+
+.stat-card h3{
+    font-size:2.6rem;
+
+    font-weight:800;
+
+    margin-bottom:8px;
+
+    color:#1f3c5b;
+}
+
+.stat-card p{
+    font-size:15px;
+
+    color:#54718e;
+
+    font-weight:600;
+}
+
+/* ACCENT COLORS */
+
+.stat-card:nth-child(1){
+    border-left:4px solid #00c2ff;
+}
+
+.stat-card:nth-child(2){
+    border-left:4px solid #39d98a;
+}
+
+.stat-card:nth-child(3){
+    border-left:4px solid #ffd43b;
+}
+
+.stat-card:nth-child(4){
+    border-left:4px solid #ff7af6;
+}
+
+/* MAIN CARDS */
+
+.welcome-card,
+.task-card,
+.activity-card{
+    min-width:320px;
+
+    min-height:180px;
+
+    padding:30px;
+
+    border-radius:28px;
+
+    backdrop-filter:blur(30px);
+
+    background:rgba(255,255,255,.18);
+
+    border:1px solid rgba(255,255,255,.22);
+
+    color:#24486b;
+
+    transition:.3s ease;
+}
+
+.welcome-card:hover,
+.task-card:hover,
+.activity-card:hover{
+    box-shadow:
+    0 12px 30px rgba(0,194,255,.08);
+}
+
+.welcome-card,
+.task-card{
+    flex:1;
+}
+
+.activity-card{
+    flex:1;
+}
+
+/* HEADINGS */
+
+.welcome-card h1,
+.task-card h2,
+.activity-card h2,
+.quick-card h2{
+    color:#1f3c5b;
+
+    font-weight:800;
+
+    letter-spacing:-0.5px;
+
+    margin-bottom:14px;
+}
+
+/* BODY TEXT */
+
+.welcome-card p,
+.task-card p,
+.activity-card p{
+    color:#54718e;
+
+    font-weight:500;
+
+    line-height:1.6;
+}
+
+/* LISTS */
+
+.task-card ul,
+.activity-card ul{
+    padding-left:20px;
+}
+
+.task-card li,
+.activity-card li{
+    margin-bottom:12px;
+
+    color:#274c77;
+
+    font-weight:500;
+}
+
+/* QUICK ACTIONS */
+
+.quick-card{
+    margin-bottom:25px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+    backdrop-filter:blur(30px);
+
+    background:rgba(255,255,255,.14);
+
+    border:1px solid rgba(255,255,255,.20);
+
+    border-radius:22px;
+
+    padding:28px;
+}
+
+.quick-card button{
+    padding:14px;
+
+    border:none;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    background:rgba(255,255,255,.88);
+
+    color:#24486b;
+
+    font-weight:700;
+
+    transition:.25s ease;
+
+    box-shadow:
+    0 6px 18px rgba(0,0,0,.05);
+}
+
+.quick-card button:hover{
+    transform:translateY(-3px);
+
+    background:#ffffff;
+
+    box-shadow:
+    0 10px 24px rgba(0,194,255,.12);
+}
+
+/* PROGRESS */
+
+.progress-label{
+    color:#1f3c5b;
+
+    font-weight:700;
+}
+
+.progress-fill{
+    background:
+    linear-gradient(
+        90deg,
+        #00c2ff,
+        #39d98a
+    );
+}
+
+/* ICONS */
+
+.bi{
+    margin-right:8px;
+}
+
+/* ACTIVITY ICONS */
+
+.activity-card li i,
+.task-card li i{
+    color:#00c2ff;
+}
