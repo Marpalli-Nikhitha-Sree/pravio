@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import FluidBackground from "../components/FluidBackground";
+import ThemeToggle from "../components/ThemeToggle";
 
 import "../styles/auth.css";
 
@@ -56,6 +57,7 @@ function Register() {
   return (
     <>
       <FluidBackground />
+      <ThemeToggle floating />
 
       <div className="hero-brand">
         <h1 className="brand-title">

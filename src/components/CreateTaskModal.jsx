@@ -1,3 +1,24 @@
+const PRIORITIES = [
+  {
+    value: "High",
+    label: "High",
+    icon: "bi-flag-fill",
+    colorClass: "icon-danger",
+  },
+  {
+    value: "Medium",
+    label: "Medium",
+    icon: "bi-flag-fill",
+    colorClass: "icon-warning",
+  },
+  {
+    value: "Low",
+    label: "Low",
+    icon: "bi-flag-fill",
+    colorClass: "icon-success",
+  },
+];
+
 function CreateTaskModal({
   isOpen,
   taskName,
@@ -16,7 +37,10 @@ function CreateTaskModal({
 
       <div className="modal-card">
 
-        <h2>Create Task</h2>
+        <h2>
+          <i className="bi bi-clipboard-plus icon-accent"></i>
+          Create Task
+        </h2>
 
         <input
           type="text"
@@ -27,24 +51,31 @@ function CreateTaskModal({
           placeholder="Task Name"
         />
 
-        <select
-          value={priority}
-          onChange={(e) =>
-            setPriority(e.target.value)
-          }
-        >
-          <option value="High">
-            🔴 High Priority
-          </option>
+        <div className="priority-picker">
+          <label>Priority</label>
 
-          <option value="Medium">
-            🟡 Medium Priority
-          </option>
-
-          <option value="Low">
-            🟢 Low Priority
-          </option>
-        </select>
+          <div className="priority-options">
+            {PRIORITIES.map((item) => (
+              <button
+                key={item.value}
+                type="button"
+                className={
+                  priority === item.value
+                    ? "priority-option is-active"
+                    : "priority-option"
+                }
+                onClick={() =>
+                  setPriority(item.value)
+                }
+              >
+                <i
+                  className={`bi ${item.icon} ${item.colorClass}`}
+                ></i>
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
         <input
           type="date"

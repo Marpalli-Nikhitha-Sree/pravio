@@ -1,6 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
 import "../styles/sidebar.css";
-
 function Sidebar() {
   const location = useLocation();
 

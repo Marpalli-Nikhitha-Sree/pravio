@@ -1,4 +1,36 @@
 :root{
-  --primary-text:#16324f;
-  --secondary-text:#4f6b85;
+  --lm-text-primary:#1a3348;
+  --lm-text-secondary:#5a7a94;
+  --lm-text-muted:#6b8ba8;
+  --lm-text-nav:#2a4f6e;
+
+  --lm-accent:#00b4d8;
+  --lm-accent-deep:#0096b8;
+  --lm-accent-glow:rgba(0,180,216,.45);
+  --lm-accent-soft:rgba(0,180,216,.12);
+
+  --lm-success:#2daf7a;
+  --lm-success-deep:#1a7a4a;
+  --lm-warning:#e6a817;
+  --lm-danger:#ef4444;
+  --lm-violet:#7c6fe0;
+
+  --lm-glass-bg:rgba(255,255,255,.18);
+  --lm-glass-bg-hover:rgba(255,255,255,.24);
+  --lm-glass-border:rgba(255,255,255,.22);
+  --lm-glass-solid:rgba(255,255,255,.88);
+
+  --lm-gold-start:#c9a227;
+  --lm-gold-mid:#e8c84a;
+  --lm-gold-end:#f0d878;
+
+  --lm-bg-gradient:linear-gradient(
+    135deg,
+    #8fd5dc 0%,
+    #7ed1d7 30%,
+    #bdeac4 65%,
+    #b6dfff 100%
+  );
+
+  --lm-btn-gradient:linear-gradient(135deg, var(--lm-accent), var(--lm-success));
 }

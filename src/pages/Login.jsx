@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import FluidBackground from "../components/FluidBackground";
+import ThemeToggle from "../components/ThemeToggle";
 
-import "../styles/background.css";
 import "../styles/auth.css";
 
 function Login() {
@@ -11,12 +11,14 @@ function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState(null);
 
   const handleLogin = async () => {
     console.log("Login button clicked");
+    setMessage(null);
 
     if (!email || !password) {
-      alert("Please fill all fields");
+      setMessage({ text: "Please fill all fields", type: "error" });
       return;
     }
 
@@ -42,7 +44,10 @@ function Login() {
       console.log("Response:", data);
 
       if (!response.ok) {
-        alert(data.message || "Login failed");
+        setMessage({
+          text: data.message || "Login failed",
+          type: "error",
+        });
         return;
       }
 
@@ -56,21 +61,23 @@ function Login() {
         JSON.stringify(data.user)
       );
 
-      alert("Login Successful");
+      setMessage({ text: "Login successful!", type: "success" });
 
-      navigate("/dashboard");
+      setTimeout(() => navigate("/dashboard"), 1200);
     } catch (error) {
       console.error(error);
 
-      alert(
-        "Cannot connect to server"
-      );
+      setMessage({
+        text: "Cannot connect to server",
+        type: "error",
+      });
     }
   };
 
   return (
     <>
       <FluidBackground />
+      <ThemeToggle floating />
 
       <div className="hero-brand">
         <h1 className="brand-title">
@@ -94,6 +101,12 @@ function Login() {
 
       <div className="auth-page">
         <div className="auth-card">
+          {message && (
+            <div className={`auth-message auth-message--${message.type}`}>
+              {message.text}
+            </div>
+          )}
+
           <input
             type="email"
             placeholder="Email"

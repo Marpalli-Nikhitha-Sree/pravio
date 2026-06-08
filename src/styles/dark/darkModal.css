@@ -1,0 +1,85 @@
+[data-theme="dark"] .modal-overlay{
+  background:rgba(0,0,0,.6);
+}
+
+[data-theme="dark"] .modal-card{
+  background:
+    linear-gradient(
+      155deg,
+      rgba(54,54,62,.55),
+      rgba(40,40,48,.48)
+    );
+
+  backdrop-filter:blur(35px);
+
+  border:1px solid var(--dm-glass-border);
+
+  box-shadow:
+    0 24px 56px rgba(0,0,0,.30),
+    0 0 24px var(--dm-wine-glow),
+    inset 0 1px 0 var(--dm-glass-highlight);
+}
+
+[data-theme="dark"] .modal-card h2{
+  color:var(--dm-soft-white);
+}
+
+[data-theme="dark"] .modal-card input,
+[data-theme="dark"] .modal-card select{
+  background:rgba(255,255,255,.04);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  color:var(--dm-off-white);
+}
+
+[data-theme="dark"] .modal-card input::placeholder{
+  color:var(--dm-icon-silver);
+}
+
+[data-theme="dark"] .modal-card input:focus,
+[data-theme="dark"] .modal-card select:focus{
+  border-color:rgba(139,30,46,.4);
+
+  box-shadow:0 0 0 3px var(--dm-wine-glow);
+}
+
+[data-theme="dark"] .modal-card select option{
+  background:var(--dm-charcoal);
+  color:var(--dm-off-white);
+}
+
+[data-theme="dark"] .modal-actions button:first-child{
+  background:rgba(255,255,255,.05);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  color:var(--dm-light-silver);
+}
+
+[data-theme="dark"] .modal-actions button:first-child:hover{
+  background:rgba(255,255,255,.08);
+}
+
+[data-theme="dark"] .modal-actions button:last-child{
+  background:linear-gradient(135deg, var(--dm-crimson), var(--dm-ruby));
+}
+
+[data-theme="dark"] .modal-actions button:last-child:hover{
+  box-shadow:0 10px 24px var(--dm-wine-glow);
+}
+
+[data-theme="dark"] .priority-picker label{
+  color:var(--dm-light-silver);
+}
+
+[data-theme="dark"] .priority-option{
+  background:rgba(56,56,64,.50);
+  border:1px solid rgba(255,255,255,.08);
+  color:var(--dm-off-white);
+}
+
+[data-theme="dark"] .priority-option.is-active{
+  background:rgba(66,66,74,.60);
+  box-shadow:0 0 0 2px rgba(139,30,46,.35);
+}

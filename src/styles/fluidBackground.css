@@ -5,106 +5,241 @@
   z-index:-1;
 
   background:
-  radial-gradient(
-    circle at 10% 90%,
-    #00a7c7 0%,
-    #00b9d5 18%,
-    transparent 45%
-  ),
+    radial-gradient(
+      circle at 50% 35%,
+      rgba(255,245,160,.22) 0%,
+      rgba(255,245,160,.10) 18%,
+      transparent 40%
+    ),
 
-  radial-gradient(
-    circle at 75% 30%,
-    rgba(255,240,150,.65) 0%,
-    transparent 25%
-  ),
+    radial-gradient(
+      circle at 12% 85%,
+      rgba(0,185,220,.18) 0%,
+      transparent 40%
+    ),
 
-  radial-gradient(
-    circle at 85% 80%,
-    #8ad8f6 0%,
-    transparent 40%
-  ),
+    radial-gradient(
+      circle at 90% 15%,
+      rgba(170,255,180,.16) 0%,
+      transparent 40%
+    ),
 
-  linear-gradient(
-    135deg,
-    #b9efe5 0%,
-    #89ddd7 35%,
-    #b8efcb 65%,
-    #b7e6ff 100%
-  );
+    var(--lm-bg-gradient);
 }
 
+/* DARK EDGE VIGNETTE */
+
+.fluid-bg::before{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  background:
+  radial-gradient(
+    circle at center,
+    transparent 35%,
+    rgba(0,0,0,.08) 70%,
+    rgba(0,0,0,.18) 100%
+  );
+
+  pointer-events:none;
+}
+
+/* MAIN SPOTLIGHT */
+
+.center-light{
+  position:absolute;
+
+  width:700px;
+  height:700px;
+
+  left:50%;
+  top:40%;
+
+  transform:translate(-50%,-50%);
+
+  border-radius:50%;
+
+  background:
+  radial-gradient(
+    circle,
+    rgba(255,255,255,.95) 0%,
+    rgba(255,255,255,.45) 25%,
+    rgba(255,255,255,.12) 50%,
+    transparent 75%
+  );
+
+  filter:blur(55px);
+}
+
+/* AQUA INNER GLOW */
+
+.center-light::after{
+  content:"";
+
+  position:absolute;
+
+  width:420px;
+  height:420px;
+
+  left:50%;
+  top:50%;
+
+  transform:translate(-50%,-50%);
+
+  border-radius:50%;
+
+  background:
+  radial-gradient(
+    circle,
+    rgba(125,249,255,.45),
+    transparent 70%
+  );
+
+  filter:blur(50px);
+}
+
+/* GLOWS */
 
 .glow{
   position:absolute;
   border-radius:50%;
   filter:blur(120px);
+  animation:breathe 8s ease-in-out infinite;
 }
 
 .glow-1{
   width:420px;
   height:420px;
 
-  top:18%;
-  right:12%;
+  top:8%;
+  left:50%;
+
+  transform:translateX(-50%);
 
   background:
-  rgba(255,235,140,.45);
+  rgba(255,235,120,.45);
 }
 
 .glow-2{
-  width:300px;
-  height:300px;
+  width:260px;
+  height:260px;
 
-  bottom:12%;
-  left:28%;
+  left:8%;
+  bottom:0;
 
   background:
-  rgba(255,230,120,.30);
+  rgba(0,185,220,.15);
 }
+
+.glow-3{
+  width:240px;
+  height:240px;
+
+  right:8%;
+  top:5%;
+
+  background:
+  rgba(170,255,180,.15);
+}
+
+.glow-4{
+  width:220px;
+  height:220px;
+
+  right:15%;
+  bottom:8%;
+
+  background:
+  rgba(255,255,255,.08);
+}
+
+@keyframes breathe{
+
+  0%,100%{
+    opacity:.7;
+    transform:scale(1);
+  }
+
+  50%{
+    opacity:1;
+    transform:scale(1.1);
+  }
+}
+
+/* WAVES */
 
 .fluid-waves{
-    position:absolute;
-    inset:0;
+  position:absolute;
+  inset:0;
 
-    width:140%;
-    height:100%;
+  width:140%;
+  height:115%;
 
-    left:-20%;
+  left:-20%;
+  top:-3%;
 
-    opacity:.95;
+  opacity:.95;
 }
 
-.layer{
-    stroke:none;
+/* SPARKLES */
+
+.sparkles span{
+  position:absolute;
+
+  width:14px;
+  height:14px;
+
+  clip-path:polygon(
+    50% 0%,
+    60% 40%,
+    100% 50%,
+    60% 60%,
+    50% 100%,
+    40% 60%,
+    0% 50%,
+    40% 40%
+  );
+
+  animation:sparkle 4s ease-in-out infinite;
+
+  filter:
+    drop-shadow(0 0 8px rgba(255,255,255,.9))
+    drop-shadow(0 0 16px rgba(125,249,255,.6));
 }
 
-.layer1{
-  fill:rgba(255,255,255,0.18);
+.sparkles span:nth-child(odd){
+  background:#ffffff;
 }
 
-.layer2{
-  fill:rgba(255,255,255,0.13);
+.sparkles span:nth-child(even){
+  background:#8cecff;
 }
 
-.layer3{
-    fill:rgba(255,255,255,0.08);
-}
+.sparkles span:nth-child(1){top:18%;left:22%;}
+.sparkles span:nth-child(2){top:28%;right:28%;}
+.sparkles span:nth-child(3){top:12%;right:40%;}
+.sparkles span:nth-child(4){top:40%;left:72%;}
+.sparkles span:nth-child(5){top:72%;left:15%;}
+.sparkles span:nth-child(6){bottom:12%;right:20%;}
+.sparkles span:nth-child(7){top:25%;left:60%;}
+.sparkles span:nth-child(8){top:20%;right:22%;}
 
-.layer4{
-    fill:rgba(255,255,255,0.06);
-}
+@keyframes sparkle{
 
-.layer5{
-    fill:rgba(255,255,255,0.04);
-}
-.layer6{
-  fill: rgba(255,255,255,0.07);
-}
+  0%{
+    opacity:.2;
+    transform:scale(.8) rotate(0deg);
+  }
 
-.layer7{
-  fill: rgba(255,255,255,0.05);
-}
+  50%{
+    opacity:1;
+    transform:scale(1.7) rotate(180deg);
+  }
 
-.layer8{
-  fill: rgba(255,255,255,0.03);
+  100%{
+    opacity:.2;
+    transform:scale(.8) rotate(360deg);
+  }
 }

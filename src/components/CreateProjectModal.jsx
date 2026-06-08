@@ -10,7 +10,10 @@ function CreateProjectModal({
   return (
     <div className="modal-overlay">
       <div className="modal-card">
-        <h2>Create Project</h2>
+        <h2>
+          <i className="bi bi-folder-plus icon-folder"></i>
+          Create Project
+        </h2>
 
         <input
           type="text"

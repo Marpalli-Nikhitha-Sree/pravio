@@ -9,6 +9,8 @@ import Sidebar from "../components/Sidebar";
 
 import { TaskContext } from "../context/TaskContext";
 
+import "../styles/dashboard.css";
+import "../styles/cards.css";
 import "../styles/calendar.css";
 import "../styles/projectTaskRows.css";
 
@@ -65,14 +67,8 @@ function CalendarPage() {
       );
 
     return hasTask ? (
-      <div
-        style={{
-          textAlign: "center",
-          fontSize: "10px",
-          color: "#00a7c7",
-        }}
-      >
-        <i className="bi bi-pin-angle-fill"></i>
+      <div className="calendar-pin">
+        <i className="bi bi-pin-angle-fill icon-accent"></i>
       </div>
     ) : null;
   };
@@ -97,7 +93,7 @@ function CalendarPage() {
             >
 
               <h2>
-                <i className="bi bi-calendar3"></i>
+                <i className="bi bi-calendar3 icon-accent"></i>
                 Calendar
               </h2>
 
@@ -115,12 +111,8 @@ function CalendarPage() {
 
               <br />
 
-              <h3
-                style={{
-                  color: "#1b3b6f",
-                }}
-              >
-                <i className="bi bi-calendar-event"></i>
+              <h3 className="calendar-subheading">
+                <i className="bi bi-calendar-event icon-accent"></i>
                 Tasks for{" "}
                 {selectedDateString}
               </h3>
@@ -149,17 +141,13 @@ function CalendarPage() {
                           }}
                         >
                           <i
-                            className="bi bi-flag-fill"
-                            style={{
-                              color:
-                                task.priority ===
-                                "High"
-                                  ? "#ef4444"
-                                  : task.priority ===
-                                    "Medium"
-                                  ? "#f59e0b"
-                                  : "#22c55e",
-                            }}
+                            className={`bi bi-flag-fill ${
+                              task.priority === "High"
+                                ? "icon-danger"
+                                : task.priority === "Medium"
+                                ? "icon-warning"
+                                : "icon-success"
+                            }`}
                           ></i>
 
                           <strong>
@@ -167,22 +155,15 @@ function CalendarPage() {
                           </strong>
                         </div>
 
-                        <div
-                          style={{
-                            marginTop:
-                              "8px",
-                            color:
-                              "#4a6fa5",
-                          }}
-                        >
+                        <div className="task-status-label">
                           {task.completed ? (
                             <>
-                              <i className="bi bi-check-circle-fill"></i>
+                              <i className="bi bi-check-circle-fill icon-success"></i>
                               Completed
                             </>
                           ) : (
                             <>
-                              <i className="bi bi-hourglass-split"></i>
+                              <i className="bi bi-hourglass-split icon-warning"></i>
                               Pending
                             </>
                           )}

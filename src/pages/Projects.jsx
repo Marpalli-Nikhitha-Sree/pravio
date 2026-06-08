@@ -8,8 +8,8 @@ import CreateProjectModal from "../components/CreateProjectModal";
 import { ProjectContext } from "../context/ProjectContext";
 
 import "../styles/dashboard.css";
+import "../styles/cards.css";
 import "../styles/projectTaskRows.css";
-
 function Projects() {
   const {
     projects,
@@ -51,20 +51,22 @@ function Projects() {
 
             <div className="task-card">
 
-              <button
-                className="create-project-btn"
-                onClick={() =>
-                  setIsModalOpen(true)
-                }
-              >
-                <i className="bi bi-folder-plus"></i>
-                New Project
-              </button>
+              <div className="task-card-header">
+                <h2>
+                  <i className="bi bi-folder-fill icon-folder"></i>
+                  Projects
+                </h2>
 
-              <h2>
-                <i className="bi bi-folder-fill"></i>
-                Projects
-              </h2>
+                <button
+                  className="create-project-btn"
+                  onClick={() =>
+                    setIsModalOpen(true)
+                  }
+                >
+                  <i className="bi bi-folder-plus icon-accent"></i>
+                  New Project
+                </button>
+              </div>
 
               {projects.length === 0 ? (
                 <p>No Projects Yet</p>
@@ -83,12 +85,7 @@ function Projects() {
                           gap: "10px",
                         }}
                       >
-                        <i
-                          className="bi bi-folder-fill"
-                          style={{
-                            color: "#00a7c7",
-                          }}
-                        ></i>
+                        <i className="bi bi-folder-fill icon-folder"></i>
 
                         <strong>
                           {project.name}
@@ -130,7 +127,7 @@ function Projects() {
                         )
                       }
                     >
-                      <i className="bi bi-trash3"></i>
+                      <i className="bi bi-trash3 icon-danger"></i>
                     </button>
 
                   </div>

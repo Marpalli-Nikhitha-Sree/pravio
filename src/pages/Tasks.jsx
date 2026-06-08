@@ -8,8 +8,8 @@ import CreateTaskModal from "../components/CreateTaskModal";
 import { TaskContext } from "../context/TaskContext";
 
 import "../styles/dashboard.css";
+import "../styles/cards.css";
 import "../styles/projectTaskRows.css";
-
 function Tasks() {
   const {
     tasks,
@@ -106,20 +106,22 @@ function Tasks() {
 
             <div className="task-card">
 
-              <button
-                className="create-project-btn"
-                onClick={() =>
-                  setIsModalOpen(true)
-                }
-              >
-                <i className="bi bi-plus-circle"></i>
-                {" "}New Task
-              </button>
+              <div className="task-card-header">
+                <h2>
+                  <i className="bi bi-check2-square icon-accent"></i>
+                  {" "}Tasks
+                </h2>
 
-              <h2>
-                <i className="bi bi-check2-square"></i>
-                {" "}Tasks
-              </h2>
+                <button
+                  className="create-project-btn"
+                  onClick={() =>
+                    setIsModalOpen(true)
+                  }
+                >
+                  <i className="bi bi-plus-circle icon-accent"></i>
+                  {" "}New Task
+                </button>
+              </div>
 
               <input
                 type="text"
@@ -133,14 +135,7 @@ function Tasks() {
                 }
               />
 
-              <div
-                style={{
-                  display: "flex",
-                  gap: "10px",
-                  flexWrap: "wrap",
-                  marginBottom: "20px",
-                }}
-              >
+              <div className="task-card-filters">
                 <button
                   className="create-project-btn"
                   onClick={() =>
@@ -236,7 +231,7 @@ function Tasks() {
                             )
                           }
                         >
-                          <i className="bi bi-pencil-square"></i>
+                          <i className="bi bi-pencil-square icon-accent"></i>
                         </button>
 
                         <button
@@ -247,7 +242,7 @@ function Tasks() {
                             )
                           }
                         >
-                          <i className="bi bi-trash3"></i>
+                          <i className="bi bi-trash3 icon-danger"></i>
                         </button>
                       </div>
 

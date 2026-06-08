@@ -17,6 +17,16 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+
+    role: {
+      type: String,
+      default: "Member",
+    },
+
+    bio: {
+      type: String,
+      default: "",
+    },
   },
   {
     timestamps: true,

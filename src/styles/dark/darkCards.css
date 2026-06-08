@@ -1,0 +1,181 @@
+[data-theme="dark"] .stat-card{
+  background:
+    linear-gradient(
+      145deg,
+      rgba(54,54,62,.50),
+      rgba(40,40,48,.40)
+    );
+
+  backdrop-filter:blur(30px);
+
+  border:1px solid var(--dm-glass-border);
+
+  color:var(--dm-off-white);
+
+  box-shadow:
+    0 12px 28px rgba(0,0,0,.22),
+    inset 0 1px 0 var(--dm-glass-highlight);
+}
+
+[data-theme="dark"] .stat-card:hover{
+  background:
+    linear-gradient(
+      145deg,
+      rgba(62,62,70,.55),
+      rgba(48,48,56,.45)
+    );
+
+  border-color:rgba(255,255,255,.12);
+
+  box-shadow:
+    0 16px 36px rgba(0,0,0,.28),
+    inset 0 1px 0 rgba(255,255,255,.09);
+}
+
+[data-theme="dark"] .stat-card h3{
+  color:var(--dm-soft-white);
+}
+
+[data-theme="dark"] .stat-card p{
+  color:var(--dm-light-silver);
+}
+
+[data-theme="dark"] .stat-card:nth-child(1){
+  border-left:3px solid var(--dm-ruby);
+}
+
+[data-theme="dark"] .stat-card:nth-child(2){
+  border-left:3px solid var(--dm-icon-success);
+}
+
+[data-theme="dark"] .stat-card:nth-child(3){
+  border-left:3px solid var(--dm-icon-warning);
+}
+
+[data-theme="dark"] .stat-card:nth-child(4){
+  border-left:3px solid var(--dm-light-silver);
+}
+
+[data-theme="dark"] .welcome-card,
+[data-theme="dark"] .task-card,
+[data-theme="dark"] .activity-card{
+  background:
+    linear-gradient(
+      155deg,
+      rgba(54,54,62,.50),
+      rgba(38,38,46,.40)
+    );
+
+  backdrop-filter:blur(30px);
+
+  border:1px solid var(--dm-glass-border);
+
+  color:var(--dm-off-white);
+
+  box-shadow:
+    0 16px 36px rgba(0,0,0,.24),
+    inset 0 1px 0 var(--dm-glass-highlight);
+}
+
+[data-theme="dark"] .welcome-card{
+  box-shadow:
+    0 20px 44px rgba(0,0,0,.28),
+    0 0 24px var(--dm-wine-glow),
+    inset 0 1px 0 var(--dm-glass-highlight);
+}
+
+[data-theme="dark"] .welcome-card:hover,
+[data-theme="dark"] .task-card:hover,
+[data-theme="dark"] .activity-card:hover{
+  background:
+    linear-gradient(
+      155deg,
+      rgba(60,60,68,.54),
+      rgba(44,44,52,.44)
+    );
+
+  border-color:rgba(255,255,255,.12);
+}
+
+[data-theme="dark"] .welcome-card h1,
+[data-theme="dark"] .task-card h2,
+[data-theme="dark"] .activity-card h2,
+[data-theme="dark"] .quick-card h2{
+  color:var(--dm-soft-white);
+}
+
+[data-theme="dark"] .welcome-card p,
+[data-theme="dark"] .task-card p,
+[data-theme="dark"] .activity-card p{
+  color:var(--dm-light-silver);
+}
+
+[data-theme="dark"] .welcome-card h3{
+  color:var(--dm-off-white);
+}
+
+[data-theme="dark"] .task-card li,
+[data-theme="dark"] .activity-card li{
+  color:var(--dm-off-white);
+}
+
+[data-theme="dark"] .quick-card{
+  background:
+    linear-gradient(
+      145deg,
+      rgba(48,48,56,.45),
+      rgba(36,36,44,.38)
+    );
+
+  border:1px solid rgba(255,255,255,.08);
+
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+[data-theme="dark"] .quick-card button{
+  background:rgba(56,56,64,.55);
+
+  border:1px solid rgba(255,255,255,.10);
+
+  color:var(--dm-off-white);
+
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+[data-theme="dark"] .quick-card button:hover{
+  background:rgba(66,66,74,.60);
+
+  border-color:rgba(255,255,255,.14);
+}
+
+[data-theme="dark"] .progress-label{
+  color:var(--dm-off-white);
+}
+
+[data-theme="dark"] .progress-fill{
+  background:linear-gradient(90deg, var(--dm-ruby), var(--dm-crimson));
+}
+
+[data-theme="dark"] .activity-card li i:not([class*="icon-"]),
+[data-theme="dark"] .task-card li i:not([class*="icon-"]){
+  color:var(--dm-icon-silver);
+}
+
+[data-theme="dark"] .profile-details p{
+  color:var(--dm-off-white);
+}
+
+[data-theme="dark"] .profile-details strong{
+  color:var(--dm-soft-white);
+}
+
+[data-theme="dark"] .icon-accent{ color:var(--dm-ruby); }
+[data-theme="dark"] .icon-success{ color:var(--dm-icon-success); }
+[data-theme="dark"] .icon-warning{ color:var(--dm-icon-warning); }
+[data-theme="dark"] .icon-danger{ color:var(--dm-icon-delete); }
+[data-theme="dark"] .icon-silver,
+[data-theme="dark"] .icon-theme{ color:var(--dm-icon-silver); }
+[data-theme="dark"] .icon-folder,
+[data-theme="dark"] .icon-notify{ color:var(--dm-ruby); }
+[data-theme="dark"] .icon-privacy{ color:var(--dm-light-silver); }
+[data-theme="dark"] .icon-appearance{ color:#a78bfa; }

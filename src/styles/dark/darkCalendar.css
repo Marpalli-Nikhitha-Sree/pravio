@@ -1,0 +1,85 @@
+[data-theme="dark"] .react-calendar{
+  background:
+    linear-gradient(
+      155deg,
+      rgba(54,54,62,.50),
+      rgba(38,38,46,.42)
+    ) !important;
+
+  backdrop-filter:blur(35px);
+
+  border:1px solid var(--dm-glass-border) !important;
+
+  color:var(--dm-off-white);
+
+  box-shadow:
+    0 20px 44px rgba(0,0,0,.26),
+    0 0 20px var(--dm-wine-glow),
+    inset 0 1px 0 var(--dm-glass-highlight);
+}
+
+[data-theme="dark"] .react-calendar__navigation button{
+  background:rgba(255,255,255,.04);
+
+  border:1px solid rgba(255,255,255,.06);
+
+  color:var(--dm-off-white);
+}
+
+[data-theme="dark"] .react-calendar__navigation button:hover{
+  background:rgba(255,255,255,.08);
+
+  border-color:rgba(255,255,255,.1);
+}
+
+[data-theme="dark"] .react-calendar__navigation__label{
+  color:var(--dm-soft-white);
+}
+
+[data-theme="dark"] .react-calendar__month-view__weekdays{
+  color:var(--dm-light-silver);
+}
+
+[data-theme="dark"] .react-calendar__tile{
+  color:var(--dm-off-white);
+}
+
+[data-theme="dark"] .react-calendar__tile:hover{
+  background:rgba(255,255,255,.05);
+}
+
+[data-theme="dark"] .react-calendar__tile--now{
+  background:rgba(110,21,32,.2) !important;
+
+  color:var(--dm-soft-white) !important;
+
+  border:1px solid rgba(139,30,46,.25);
+}
+
+[data-theme="dark"] .react-calendar__tile--active{
+  background:linear-gradient(135deg, var(--dm-crimson), var(--dm-ruby)) !important;
+
+  color:var(--dm-soft-white) !important;
+
+  box-shadow:0 8px 20px var(--dm-wine-glow);
+}
+
+[data-theme="dark"] .react-calendar__tile i{
+  color:var(--dm-ruby);
+}
+
+[data-theme="dark"] .react-calendar__month-view__days__day--neighboringMonth{
+  color:var(--dm-icon-silver);
+}
+
+[data-theme="dark"] .react-calendar__tile:disabled{
+  color:var(--dm-gunmetal);
+}
+
+[data-theme="dark"] .calendar-subheading{
+  color:var(--dm-off-white);
+}
+
+[data-theme="dark"] .task-status-label{
+  color:var(--dm-light-silver);
+}

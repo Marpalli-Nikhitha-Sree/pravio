@@ -1,0 +1,178 @@
+[data-theme="dark"] .fluid-bg{
+  background:
+    radial-gradient(
+      circle at 50% 28%,
+      rgba(110,21,32,.10) 0%,
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 15% 80%,
+      rgba(51,51,56,.55) 0%,
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 88% 18%,
+      rgba(36,36,40,.45) 0%,
+      transparent 35%
+    ),
+    linear-gradient(
+      160deg,
+      var(--dm-near-black) 0%,
+      var(--dm-charcoal) 40%,
+      var(--dm-graphite) 100%
+    );
+}
+
+[data-theme="dark"] .fluid-bg::before{
+  content:"";
+  position:absolute;
+  inset:0;
+
+  background:
+    radial-gradient(
+      circle at 50% 30%,
+      var(--dm-wine-glow) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at center,
+      transparent 20%,
+      rgba(0,0,0,.4) 100%
+    );
+
+  pointer-events:none;
+}
+
+/* ambient glow — soft moonlight + wine */
+
+[data-theme="dark"] .center-light{
+  display:block;
+
+  width:620px;
+  height:620px;
+
+  top:38%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(180,180,188,.08) 0%,
+      rgba(110,21,32,.06) 30%,
+      transparent 68%
+    );
+
+  filter:blur(70px);
+}
+
+[data-theme="dark"] .center-light::after{
+  background:
+    radial-gradient(
+      circle,
+      rgba(139,30,46,.10),
+      transparent 70%
+    );
+
+  filter:blur(55px);
+}
+
+/* glow orbs */
+
+[data-theme="dark"] .glow{
+  display:block;
+  animation:breatheDark 10s ease-in-out infinite;
+}
+
+[data-theme="dark"] .glow-1{
+  background:rgba(110,21,32,.14);
+}
+
+[data-theme="dark"] .glow-2{
+  background:rgba(139,30,46,.08);
+}
+
+[data-theme="dark"] .glow-3{
+  background:rgba(180,180,188,.05);
+}
+
+[data-theme="dark"] .glow-4{
+  background:rgba(36,36,40,.35);
+}
+
+@keyframes breatheDark{
+  0%,100%{
+    opacity:.55;
+  }
+
+  50%{
+    opacity:.85;
+  }
+}
+
+/* waves — visible silver ripples */
+
+[data-theme="dark"] .fluid-waves{
+  opacity:.38;
+
+  filter:
+    drop-shadow(0 0 30px rgba(110,21,32,.06));
+}
+
+/* sparkles — silver + soft crimson */
+
+[data-theme="dark"] .sparkles{
+  display:block;
+
+  position:absolute;
+  inset:0;
+
+  pointer-events:none;
+}
+
+[data-theme="dark"] .sparkles span{
+  width:12px;
+  height:12px;
+
+  opacity:.55;
+
+  filter:
+    drop-shadow(0 0 6px rgba(180,180,188,.45))
+    drop-shadow(0 0 12px rgba(110,21,32,.18));
+}
+
+[data-theme="dark"] .sparkles span:nth-child(odd){
+  background:var(--dm-light-silver);
+}
+
+[data-theme="dark"] .sparkles span:nth-child(even){
+  background:#9e4a58;
+}
+
+[data-theme="dark"] .sparkles span:nth-child(1){animation-delay:0s;}
+[data-theme="dark"] .sparkles span:nth-child(2){animation-delay:.5s;}
+[data-theme="dark"] .sparkles span:nth-child(3){animation-delay:1s;}
+[data-theme="dark"] .sparkles span:nth-child(4){animation-delay:1.5s;}
+[data-theme="dark"] .sparkles span:nth-child(5){animation-delay:.3s;}
+[data-theme="dark"] .sparkles span:nth-child(6){animation-delay:.8s;}
+[data-theme="dark"] .sparkles span:nth-child(7){animation-delay:1.2s;}
+[data-theme="dark"] .sparkles span:nth-child(8){animation-delay:1.7s;}
+
+@keyframes sparkleDark{
+  0%{
+    opacity:.15;
+    transform:scale(.75) rotate(0deg);
+  }
+
+  50%{
+    opacity:.75;
+    transform:scale(1.4) rotate(180deg);
+  }
+
+  100%{
+    opacity:.15;
+    transform:scale(.75) rotate(360deg);
+  }
+}
+
+[data-theme="dark"] .sparkles span{
+  animation:sparkleDark 5s ease-in-out infinite;
+}

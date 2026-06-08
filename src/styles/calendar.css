@@ -13,7 +13,7 @@
 
     padding:24px;
 
-    color:#24486b;
+    color:var(--lm-text-primary);
 
     font-family:inherit;
 
@@ -38,7 +38,7 @@
 
     border:none;
 
-    color:#1f3c5b;
+    color:var(--lm-text-primary);
 
     font-size:18px;
 
@@ -62,7 +62,7 @@
 
     margin-bottom:12px;
 
-    color:#54718e;
+    color:var(--lm-text-secondary);
 
     font-weight:700;
 
@@ -91,7 +91,7 @@
 /* DATE TILE */
 
 .react-calendar__tile{
-    color:#24486b;
+    color:var(--lm-text-primary);
 
     background:transparent;
 
@@ -120,7 +120,7 @@
     background:
     rgba(125,249,255,.25) !important;
 
-    color:#1f3c5b !important;
+    color:var(--lm-text-primary) !important;
 
     font-weight:700;
 }
@@ -128,25 +128,20 @@
 /* SELECTED */
 
 .react-calendar__tile--active{
-    background:
-    linear-gradient(
-        135deg,
-        #00c2ff,
-        #39d98a
-    ) !important;
+    background:var(--lm-btn-gradient) !important;
 
     color:white !important;
 
     font-weight:700;
 
     box-shadow:
-    0 8px 20px rgba(0,194,255,.25);
+    0 8px 20px var(--lm-accent-soft);
 }
 
 /* TASK INDICATOR */
 
 .react-calendar__tile i{
-    color:#00c2ff;
+    color:var(--lm-accent);
 
     font-size:10px;
 }
@@ -158,5 +153,23 @@
 
     font-weight:700;
 
-    color:#1f3c5b;
+    color:var(--lm-text-primary);
+}
+
+.calendar-pin{
+    text-align:center;
+    font-size:10px;
+}
+
+.calendar-subheading{
+    color:var(--lm-text-primary);
+    font-weight:700;
+    margin-top:10px;
+    margin-bottom:16px;
+}
+
+.task-status-label{
+    margin-top:8px;
+    color:var(--lm-text-secondary);
+    font-weight:600;
 }

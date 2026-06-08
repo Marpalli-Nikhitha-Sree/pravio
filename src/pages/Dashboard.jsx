@@ -7,9 +7,10 @@ import Sidebar from "../components/Sidebar";
 
 import { TaskContext } from "../context/TaskContext";
 import { ProjectContext } from "../context/ProjectContext";
+import { useSettings } from "../context/SettingsContext";
 
+import "../styles/dashboard.css";
 import "../styles/cards.css";
-
 function Dashboard() {
   const { tasks } =
     useContext(TaskContext);
@@ -18,6 +19,8 @@ function Dashboard() {
     useContext(ProjectContext);
 
   const navigate = useNavigate();
+
+  const { privacy } = useSettings();
 
   const user = JSON.parse(
     localStorage.getItem("user")
@@ -83,7 +86,7 @@ function Dashboard() {
             <div className="welcome-card">
 
               <h1>
-                <i className="bi bi-stars"></i>
+                <i className="bi bi-stars icon-accent"></i>
                 {" "}
                 Welcome Back,
                 {" "}
@@ -100,26 +103,10 @@ function Dashboard() {
                 Progress: {progress}%
               </h3>
 
-              <div
-                style={{
-                  width: "100%",
-                  height: "12px",
-                  background:
-                    "rgba(255,255,255,0.2)",
-                  borderRadius: "20px",
-                  overflow: "hidden",
-                  marginTop: "10px",
-                }}
-              >
+              <div className="progress-track">
                 <div
-                  style={{
-                    width: `${progress}%`,
-                    height: "100%",
-                    background:
-                      "linear-gradient(to right,#4ade80,#22c55e)",
-                    transition:
-                      "0.4s ease",
-                  }}
+                  className="progress-fill"
+                  style={{ width: `${progress}%` }}
                 />
               </div>
 
@@ -128,6 +115,7 @@ function Dashboard() {
             <div className="task-card">
 
               <h2>
+                <i className="bi bi-check2-square icon-accent"></i>
                 Today's Tasks
               </h2>
 
@@ -141,13 +129,9 @@ function Dashboard() {
                         className={
                           task.status ===
                           "Completed"
-                            ? "bi bi-check-circle-fill"
-                            : "bi bi-circle"
+                            ? "bi bi-check-circle-fill icon-success"
+                            : "bi bi-circle icon-silver"
                         }
-                        style={{
-                          marginRight:
-                            "8px",
-                        }}
                       ></i>
 
                       {task.title}
@@ -171,7 +155,7 @@ function Dashboard() {
                     navigate("/tasks")
                   }
                 >
-                  <i className="bi bi-plus-circle"></i>
+                  <i className="bi bi-plus-circle icon-accent"></i>
                   {" "}
                   Create Task
                 </button>
@@ -181,7 +165,7 @@ function Dashboard() {
                     navigate("/projects")
                   }
                 >
-                  <i className="bi bi-folder-plus"></i>
+                  <i className="bi bi-folder-plus icon-folder"></i>
                   {" "}
                   Create Project
                 </button>
@@ -191,44 +175,51 @@ function Dashboard() {
                     navigate("/calendar")
                   }
                 >
-                  <i className="bi bi-calendar-event"></i>
+                  <i className="bi bi-calendar-event icon-accent"></i>
                   {" "}
                   Open Calendar
                 </button>
 
               </div>
 
-              <h2>
-                Recent Activity
-              </h2>
+              {privacy.showActivity ? (
+                <>
+                  <h2>
+                    Recent Activity
+                  </h2>
 
-              <ul>
+                  <ul>
+                    <li>
+                      <i className="bi bi-check-circle-fill icon-success"></i>
+                      {" "}
+                      Finished Homepage Design
+                    </li>
 
-                <li>
-                  <i className="bi bi-check-circle-fill"></i>
-                  {" "}
-                  Finished Homepage Design
-                </li>
+                    <li>
+                      <i className="bi bi-pencil-square icon-accent"></i>
+                      {" "}
+                      Added New Task
+                    </li>
 
-                <li>
-                  <i className="bi bi-pencil-square"></i>
-                  {" "}
-                  Added New Task
-                </li>
+                    <li>
+                      <i className="bi bi-folder-fill icon-folder"></i>
+                      {" "}
+                      Created Project "Pravio"
+                    </li>
 
-                <li>
-                  <i className="bi bi-folder-fill"></i>
-                  {" "}
-                  Created Project "Pravio"
-                </li>
-
-                <li>
-                  <i className="bi bi-bullseye"></i>
-                  {" "}
-                  Completed Daily Goal
-                </li>
-
-              </ul>
+                    <li>
+                      <i className="bi bi-bullseye icon-warning"></i>
+                      {" "}
+                      Completed Daily Goal
+                    </li>
+                  </ul>
+                </>
+              ) : (
+                <p className="settings-private-note">
+                  <i className="bi bi-shield-lock-fill icon-privacy"></i>
+                  Recent activity is hidden based on your privacy settings.
+                </p>
+              )}
 
             </div>
 
