@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import FluidBackground from "../components/FluidBackground";
 import ThemeToggle from "../components/ThemeToggle";
+import { API_BASE, isAuthenticated } from "../services/api";
 
 import "../styles/auth.css";
 
@@ -12,24 +13,44 @@ function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState(null);
+
+  useEffect(() => {
+    if (isAuthenticated()) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [navigate]);
 
   const handleRegister = async () => {
+    setMessage(null);
+
     if (!name || !email || !password) {
-      alert("Please fill all fields");
+      setMessage({
+        text: "Please fill all fields",
+        type: "error",
+      });
+      return;
+    }
+
+    if (password.length < 6) {
+      setMessage({
+        text: "Password must be at least 6 characters",
+        type: "error",
+      });
       return;
     }
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/auth/register",
+        `${API_BASE}/auth/register`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            name,
-            email,
+            name: name.trim(),
+            email: email.trim().toLowerCase(),
             password,
           }),
         }
@@ -38,19 +59,28 @@ function Register() {
       const data = await response.json();
 
       if (!response.ok) {
-        alert(
-          data.message || "Registration failed"
-        );
+        setMessage({
+          text: data.message || "Registration failed",
+          type: "error",
+        });
         return;
       }
 
-      alert("Registration Successful");
+      setMessage({
+        text: "Registration successful! Redirecting to login...",
+        type: "success",
+      });
 
-      navigate("/login");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1200);
     } catch (error) {
       console.error(error);
 
-      alert("Cannot connect to server");
+      setMessage({
+        text: "Cannot connect to server",
+        type: "error",
+      });
     }
   };
 
@@ -81,6 +111,14 @@ function Register() {
           </div>
 
           <div className="auth-card">
+
+            {message && (
+              <div
+                className={`auth-message auth-message--${message.type}`}
+              >
+                {message.text}
+              </div>
+            )}
 
             <input
               type="text"
@@ -114,6 +152,13 @@ function Register() {
             >
               Register
             </button>
+
+            <p className="auth-link">
+              Already have an account?{" "}
+              <Link to="/login">
+                Sign in
+              </Link>
+            </p>
 
           </div>
         </div>

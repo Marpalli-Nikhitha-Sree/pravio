@@ -1,13 +1,50 @@
 const express = require("express");
+const mongoose = require("mongoose");
 
 const Project = require("../models/Project");
 const Task = require("../models/Task");
+const { enrichProject } = require("../utils/projectHelpers");
 
 const protect = require(
   "../middleware/authMiddleware"
 );
 
 const router = express.Router();
+
+const PROJECT_STATUSES = [
+  "To Do",
+  "In Progress",
+  "Completed",
+];
+
+function pickProjectFields(body) {
+  const updates = {};
+
+  if (body.name?.trim()) {
+    updates.name = body.name.trim();
+  }
+
+  if (body.description !== undefined) {
+    updates.description = body.description;
+  }
+
+  if (
+    body.status !== undefined &&
+    PROJECT_STATUSES.includes(body.status)
+  ) {
+    updates.status = body.status;
+  }
+
+  if (body.color !== undefined) {
+    updates.color = body.color;
+  }
+
+  if (body.dueDate !== undefined) {
+    updates.dueDate = body.dueDate;
+  }
+
+  return updates;
+}
 
 router.get(
   "/",
@@ -19,48 +56,17 @@ router.get(
           userId: req.user.id,
         }).sort({ createdAt: -1 });
 
-      // Add task counts to each project
       const projectsWithCounts =
         await Promise.all(
-          projects.map(
-            async (project) => {
-              const tasks =
-                await Task.find({
-                  projectId:
-                    project._id,
-                });
-
-              const completedTasks =
-                tasks.filter(
-                  (task) =>
-                    task.status ===
-                    "Completed"
-                ).length;
-
-              return {
-                ...project.toObject(),
-                taskCount: tasks.length,
-                completedTaskCount:
-                  completedTasks,
-                progress:
-                  tasks.length > 0
-                    ? Math.round(
-                        (completedTasks /
-                          tasks.length) *
-                          100
-                      )
-                    : 0,
-              };
-            }
-          )
+          projects.map(enrichProject)
         );
 
       res.json(projectsWithCounts);
     } catch (error) {
+      console.error(error);
       res.status(500).json({
         message:
           "Error fetching projects",
-        error: error.message,
       });
     }
   }
@@ -71,6 +77,18 @@ router.get(
   protect,
   async (req, res) => {
     try {
+      const project =
+        await Project.findOne({
+          _id: req.params.id,
+          userId: req.user.id,
+        });
+
+      if (!project) {
+        return res.status(404).json({
+          message: "Project not found",
+        });
+      }
+
       const tasks =
         await Task.find({
           projectId:
@@ -80,10 +98,10 @@ router.get(
 
       res.json(tasks);
     } catch (error) {
+      console.error(error);
       res.status(500).json({
         message:
           "Error fetching project tasks",
-        error: error.message,
       });
     }
   }
@@ -94,15 +112,29 @@ router.post(
   protect,
   async (req, res) => {
     try {
+      const name =
+        req.body.name?.trim();
+
+      if (!name) {
+        return res.status(400).json({
+          message: "Project name is required",
+        });
+      }
+
+      const status =
+        PROJECT_STATUSES.includes(
+          req.body.status
+        )
+          ? req.body.status
+          : "In Progress";
+
       const project =
         await Project.create({
-          name: req.body.name,
+          name,
           description:
             req.body.description ||
             "",
-          status:
-            req.body.status ||
-            "In Progress",
+          status,
           color:
             req.body.color ||
             "#6366f1",
@@ -112,12 +144,14 @@ router.post(
           userId: req.user.id,
         });
 
-      res.json(project);
+      res.json(
+        await enrichProject(project)
+      );
     } catch (error) {
+      console.error(error);
       res.status(500).json({
         message:
           "Error creating project",
-        error: error.message,
       });
     }
   }
@@ -128,10 +162,26 @@ router.put(
   protect,
   async (req, res) => {
     try {
+      const updates =
+        pickProjectFields(req.body);
+
+      if (
+        Object.keys(updates).length ===
+        0
+      ) {
+        return res.status(400).json({
+          message:
+            "No valid fields to update",
+        });
+      }
+
       const project =
-        await Project.findByIdAndUpdate(
-          req.params.id,
-          req.body,
+        await Project.findOneAndUpdate(
+          {
+            _id: req.params.id,
+            userId: req.user.id,
+          },
+          updates,
           { new: true }
         );
 
@@ -144,12 +194,14 @@ router.put(
           });
       }
 
-      res.json(project);
+      res.json(
+        await enrichProject(project)
+      );
     } catch (error) {
+      console.error(error);
       res.status(500).json({
         message:
           "Error updating project",
-        error: error.message,
       });
     }
   }
@@ -159,27 +211,63 @@ router.delete(
   "/:id",
   protect,
   async (req, res) => {
-    try {
-      // Delete all tasks associated with the project
-      await Task.deleteMany({
-        projectId: req.params.id,
-      });
+    const session =
+      await mongoose.startSession();
 
-      // Delete the project
-      await Project.findByIdAndDelete(
-        req.params.id
+    try {
+      let deleted = false;
+
+      await session.withTransaction(
+        async () => {
+          const project =
+            await Project.findOne({
+              _id: req.params.id,
+              userId: req.user.id,
+            }).session(session);
+
+          if (!project) {
+            return;
+          }
+
+          await Task.deleteMany(
+            {
+              projectId:
+                req.params.id,
+              userId: req.user.id,
+            },
+            { session }
+          );
+
+          await Project.deleteOne(
+            {
+              _id: req.params.id,
+              userId: req.user.id,
+            },
+            { session }
+          );
+
+          deleted = true;
+        }
       );
+
+      if (!deleted) {
+        return res.status(404).json({
+          message: "Project not found",
+        });
+      }
 
       res.json({
         message:
           "Project and associated tasks deleted",
       });
     } catch (error) {
+      console.error(error);
       res.status(500).json({
         message:
           "Error deleting project",
-        error: error.message,
       });
+    } finally {
+      await session.endSession();
     }
   }
 );

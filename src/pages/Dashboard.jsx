@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import FluidBackground from "../components/FluidBackground";
@@ -11,6 +11,24 @@ import { useSettings } from "../context/SettingsContext";
 
 import "../styles/dashboard.css";
 import "../styles/cards.css";
+
+function formatLocalDate(d) {
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function getStoredUser() {
+  try {
+    return JSON.parse(
+      localStorage.getItem("user") || "null"
+    );
+  } catch {
+    return null;
+  }
+}
+
 function Dashboard() {
   const { tasks } =
     useContext(TaskContext);
@@ -22,8 +40,12 @@ function Dashboard() {
 
   const { privacy } = useSettings();
 
-  const user = JSON.parse(
-    localStorage.getItem("user")
+  const user = getStoredUser();
+
+  const today = formatLocalDate(new Date());
+
+  const todaysTasks = tasks.filter(
+    (task) => task.dueDate === today
   );
 
   const completedProjects =
@@ -52,8 +74,46 @@ function Dashboard() {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentTasks = tasks.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(tasks.length / itemsPerPage);
+  const currentTasks = todaysTasks.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(todaysTasks.length / itemsPerPage);
+
+  const recentActivity = useMemo(() => {
+    const items = [];
+
+    tasks
+      .slice()
+      .sort(
+        (a, b) =>
+          new Date(b.updatedAt || b.createdAt) -
+          new Date(a.updatedAt || a.createdAt)
+      )
+      .slice(0, 3)
+      .forEach((task) => {
+        items.push({
+          key: `task-${task._id}`,
+          icon:
+            task.status === "Completed"
+              ? "bi bi-check-circle-fill icon-success"
+              : "bi bi-pencil-square icon-accent",
+          text:
+            task.status === "Completed"
+              ? `Completed "${task.title}"`
+              : `Updated task "${task.title}"`,
+        });
+      });
+
+    projects
+      .slice(0, 2)
+      .forEach((project) => {
+        items.push({
+          key: `project-${project._id}`,
+          icon: "bi bi-folder-fill icon-folder",
+          text: `Project "${project.name}" — ${project.status}`,
+        });
+      });
+
+    return items.slice(0, 5);
+  }, [tasks, projects]);
 
   return (
     <>
@@ -71,7 +131,7 @@ function Dashboard() {
 
               <div className="stat-card">
                 <h3>{tasks.length}</h3>
-                <p>Total Tasks</p>
+                <p>Standalone Tasks</p>
               </div>
 
               <div className="stat-card">
@@ -81,7 +141,7 @@ function Dashboard() {
 
               <div className="stat-card">
                 <h3>{completedTasks}</h3>
-                <p>Completed</p>
+                <p>Completed Tasks</p>
               </div>
 
               <div className="stat-card">
@@ -127,8 +187,8 @@ function Dashboard() {
                 Today's Tasks
               </h2>
 
-              {tasks.length === 0 ? (
-                <p>No tasks for today</p>
+              {todaysTasks.length === 0 ? (
+                <p>No tasks due today</p>
               ) : (
                 <>
                   <ul>
@@ -231,31 +291,19 @@ function Dashboard() {
                     Recent Activity
                   </h2>
 
-                  <ul>
-                    <li>
-                      <i className="bi bi-check-circle-fill icon-success"></i>
-                      {" "}
-                      Finished Homepage Design
-                    </li>
-
-                    <li>
-                      <i className="bi bi-pencil-square icon-accent"></i>
-                      {" "}
-                      Added New Task
-                    </li>
-
-                    <li>
-                      <i className="bi bi-folder-fill icon-folder"></i>
-                      {" "}
-                      Created Project "Pravio"
-                    </li>
-
-                    <li>
-                      <i className="bi bi-bullseye icon-warning"></i>
-                      {" "}
-                      Completed Daily Goal
-                    </li>
-                  </ul>
+                  {recentActivity.length === 0 ? (
+                    <p>No recent activity yet</p>
+                  ) : (
+                    <ul>
+                      {recentActivity.map((item) => (
+                        <li key={item.key}>
+                          <i className={item.icon}></i>
+                          {" "}
+                          {item.text}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </>
               ) : (
                 <p className="settings-private-note">

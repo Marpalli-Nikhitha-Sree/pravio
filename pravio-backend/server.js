@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const rateLimit = require("express-rate-limit");
 
 const connectDB = require("./config/db");
 
@@ -10,10 +11,15 @@ const projectRoutes = require("./routes/projectRoutes");
 
 dotenv.config();
 
+if (!process.env.JWT_SECRET) {
+  console.error("JWT_SECRET is not set");
+  process.exit(1);
+}
+
 connectDB();
 
 const app = express();
-console.log("CORS CONFIG LOADED");
+
 app.use(cors({
   origin: [
     "http://localhost:5173",
@@ -22,9 +28,19 @@ app.use(cors({
   credentials: true
 }));
 
-app.use(express.json());
+app.use(express.json({ limit: "1mb" }));
 
-app.use("/api/auth", authRoutes);
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    message: "Too many requests, please try again later",
+  },
+});
+
+app.use("/api/auth", authLimiter, authRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/projects", projectRoutes);
 

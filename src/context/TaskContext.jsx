@@ -2,107 +2,209 @@ import {
   createContext,
   useState,
   useEffect,
+  useCallback,
 } from "react";
 
-export const TaskContext = createContext();
+import { apiFetch, getToken } from "../services/api";
+import { projectService } from "../services/projectService";
 
-const API_URL =
-  "http://localhost:5001/api/tasks";
+export const TaskContext = createContext();
 
 export function TaskProvider({
   children,
 }) {
   const [tasks, setTasks] =
     useState([]);
+  const [calendarTasks, setCalendarTasks] =
+    useState([]);
+  const [projectTasks, setProjectTasks] =
+    useState({});
 
-  const token =
-    localStorage.getItem("token");
-
-  useEffect(() => {
-    fetchTasks();
-
-    const interval = setInterval(() => {
-      fetchTasks();
-    }, 30000);
-
-    return () => clearInterval(interval);
+  const clearAll = useCallback(() => {
+    setTasks([]);
+    setCalendarTasks([]);
+    setProjectTasks({});
   }, []);
 
-  const fetchTasks = async () => {
+  const fetchTasks = useCallback(async () => {
+    if (!getToken()) return;
+
     try {
-      const response =
-        await fetch(
-          API_URL,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+      const data = await apiFetch("/tasks");
 
-      const data =
-        await response.json();
-
-      setTasks(data);
+      if (Array.isArray(data)) {
+        setTasks(data);
+      }
     } catch (error) {
       console.error(error);
     }
+  }, []);
+
+  const fetchCalendarTasks =
+    useCallback(async () => {
+      if (!getToken()) return;
+
+      try {
+        const data =
+          await apiFetch(
+            "/tasks/calendar"
+          );
+
+        if (Array.isArray(data)) {
+          setCalendarTasks(data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }, []);
+
+  useEffect(() => {
+    fetchTasks();
+    fetchCalendarTasks();
+
+    const interval = setInterval(() => {
+      if (getToken()) {
+        fetchTasks();
+        fetchCalendarTasks();
+      }
+    }, 30000);
+
+    const handleAuthLogin = () => {
+      fetchTasks();
+      fetchCalendarTasks();
+    };
+
+    const handleAuthLogout = () => {
+      clearAll();
+    };
+
+    window.addEventListener(
+      "auth-login",
+      handleAuthLogin
+    );
+    window.addEventListener(
+      "auth-logout",
+      handleAuthLogout
+    );
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener(
+        "auth-login",
+        handleAuthLogin
+      );
+      window.removeEventListener(
+        "auth-logout",
+        handleAuthLogout
+      );
+    };
+  }, [
+    fetchTasks,
+    fetchCalendarTasks,
+    clearAll,
+  ]);
+
+  const fetchProjectTasks = async (
+    projectId
+  ) => {
+    try {
+      const data =
+        await projectService.getProjectTasks(
+          projectId
+        );
+
+      if (Array.isArray(data)) {
+        setProjectTasks((prev) => ({
+          ...prev,
+          [projectId]: data,
+        }));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const findProjectTask = (id) => {
+    for (const [
+      projectId,
+      projectTaskList,
+    ] of Object.entries(
+      projectTasks
+    )) {
+      const task =
+        projectTaskList.find(
+          (t) => t._id === id
+        );
+
+      if (task) {
+        return { task, projectId };
+      }
+    }
+
+    return null;
   };
 
   const addTask = async (
     task
   ) => {
-    try {
-      const response =
-        await fetch(
-          API_URL,
-          {
-            method: "POST",
+    const newTask = await apiFetch(
+      "/tasks",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          title: task.title,
+          description: "",
+          status:
+            task.completed
+              ? "Completed"
+              : "Pending",
+          priority: task.priority,
+          dueDate: task.dueDate,
+          projectId:
+            task.projectId || null,
+        }),
+      }
+    );
 
-            headers: {
-              "Content-Type":
-                "application/json",
-
-              Authorization:
-                `Bearer ${token}`,
-            },
-
-            body: JSON.stringify({
-              title: task.title,
-              description: "",
-              status:
-                task.completed
-                  ? "Completed"
-                  : "Pending",
-              priority: task.priority,
-              dueDate: task.dueDate,
-              projectId: task.projectId || null,
-            }),
-          }
-        );
-
-      const newTask =
-        await response.json();
-
-      setTasks([
-        ...tasks,
-        {
-          ...newTask,
-          completed: false,
-        },
+    if (task.projectId) {
+      setProjectTasks((prev) => ({
+        ...prev,
+        [task.projectId]: [
+          ...(prev[task.projectId] || []),
+          newTask,
+        ],
+      }));
+    } else {
+      setTasks((prev) => [
+        ...prev,
+        newTask,
       ]);
-    } catch (error) {
-      console.error(error);
     }
+
+    if (newTask.dueDate) {
+      setCalendarTasks((prev) => [
+        ...prev,
+        newTask,
+      ]);
+    }
+
+    return newTask;
   };
 
   const toggleTask =
     async (id) => {
-      const task =
+      const standaloneTask =
         tasks.find(
           (t) =>
             t._id === id
         );
+
+      const projectMatch =
+        findProjectTask(id);
+
+      const task =
+        standaloneTask ||
+        projectMatch?.task;
 
       if (!task) return;
 
@@ -112,67 +214,87 @@ export function TaskProvider({
           ? "Pending"
           : "Completed";
 
-      try {
-        const response =
-          await fetch(
-            `${API_URL}/${id}`,
-            {
-              method: "PUT",
+      const updatedTask =
+        await apiFetch(
+          `/tasks/${id}`,
+          {
+            method: "PUT",
+            body: JSON.stringify({
+              status:
+                updatedStatus,
+            }),
+          }
+        );
 
-              headers: {
-                "Content-Type":
-                  "application/json",
-
-                Authorization:
-                  `Bearer ${token}`,
-              },
-
-              body: JSON.stringify({
-                status:
-                  updatedStatus,
-              }),
-            }
-          );
-
-        const updatedTask =
-          await response.json();
-
-        setTasks(
-          tasks.map((t) =>
+      if (projectMatch) {
+        setProjectTasks((prev) => ({
+          ...prev,
+          [projectMatch.projectId]:
+            prev[
+              projectMatch.projectId
+            ].map((t) =>
+              t._id === id
+                ? updatedTask
+                : t
+            ),
+        }));
+      } else {
+        setTasks((prev) =>
+          prev.map((t) =>
             t._id === id
               ? updatedTask
               : t
           )
         );
-      } catch (error) {
-        console.error(error);
       }
+
+      setCalendarTasks((prev) =>
+        prev.map((t) =>
+          t._id === id
+            ? updatedTask
+            : t
+        )
+      );
     };
 
   const deleteTask =
     async (id) => {
-      try {
-        await fetch(
-          `${API_URL}/${id}`,
-          {
-            method: "DELETE",
+      await apiFetch(
+        `/tasks/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
-            headers: {
-              Authorization:
-                `Bearer ${token}`,
-            },
-          }
-        );
+      const projectMatch =
+        findProjectTask(id);
 
-        setTasks(
-          tasks.filter(
+      if (projectMatch) {
+        setProjectTasks((prev) => ({
+          ...prev,
+          [projectMatch.projectId]:
+            prev[
+              projectMatch.projectId
+            ].filter(
+              (task) =>
+                task._id !== id
+            ),
+        }));
+      } else {
+        setTasks((prev) =>
+          prev.filter(
             (task) =>
               task._id !== id
           )
         );
-      } catch (error) {
-        console.error(error);
       }
+
+      setCalendarTasks((prev) =>
+        prev.filter(
+          (task) =>
+            task._id !== id
+        )
+      );
     };
 
   const editTask =
@@ -180,63 +302,91 @@ export function TaskProvider({
       id,
       newTitle
     ) => {
-      try {
-        const response =
-          await fetch(
-            `${API_URL}/${id}`,
-            {
-              method: "PUT",
+      const updatedTask =
+        await apiFetch(
+          `/tasks/${id}`,
+          {
+            method: "PUT",
+            body: JSON.stringify({
+              title:
+                newTitle,
+            }),
+          }
+        );
 
-              headers: {
-                "Content-Type":
-                  "application/json",
+      const projectMatch =
+        findProjectTask(id);
 
-                Authorization:
-                  `Bearer ${token}`,
-              },
-
-              body: JSON.stringify({
-                title:
-                  newTitle,
-              }),
-            }
-          );
-
-        const updatedTask =
-          await response.json();
-
-        setTasks(
-          tasks.map((task) =>
+      if (projectMatch) {
+        setProjectTasks((prev) => ({
+          ...prev,
+          [projectMatch.projectId]:
+            prev[
+              projectMatch.projectId
+            ].map((task) =>
+              task._id === id
+                ? updatedTask
+                : task
+            ),
+        }));
+      } else {
+        setTasks((prev) =>
+          prev.map((task) =>
             task._id === id
               ? updatedTask
               : task
           )
         );
-      } catch (error) {
-        console.error(error);
       }
+
+      setCalendarTasks((prev) =>
+        prev.map((task) =>
+          task._id === id
+            ? updatedTask
+            : task
+        )
+      );
     };
 
   const refreshTasks = () => {
     fetchTasks();
+    fetchCalendarTasks();
+  };
+
+  const removeProjectTasks = (
+    projectId
+  ) => {
+    setProjectTasks((prev) => {
+      const next = { ...prev };
+      delete next[projectId];
+      return next;
+    });
+
+    setCalendarTasks((prev) =>
+      prev.filter(
+        (task) =>
+          task.projectId !==
+          projectId
+      )
+    );
   };
 
   const getTasksByProject = (projectId) => {
-    return tasks.filter(
-      (task) =>
-        task.projectId === projectId
-    );
+    return projectTasks[projectId] || [];
   };
 
   return (
     <TaskContext.Provider
       value={{
         tasks,
+        calendarTasks,
         addTask,
         toggleTask,
         deleteTask,
         editTask,
         refreshTasks,
+        fetchProjectTasks,
+        removeProjectTasks,
         getTasksByProject,
       }}
     >

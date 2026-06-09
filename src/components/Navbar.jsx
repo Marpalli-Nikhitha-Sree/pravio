@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
+import { clearAuth } from "../services/api";
 import "../styles/navbar.css";
 
 function Navbar() {
@@ -28,9 +29,7 @@ function Navbar() {
   }, []);
 
   const logout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-
+    clearAuth();
     navigate("/login");
   };
 

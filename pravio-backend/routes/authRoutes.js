@@ -18,15 +18,34 @@ function formatUser(user) {
   };
 }
 
+function normalizeEmail(email) {
+  return email?.trim().toLowerCase() || "";
+}
+
 router.post(
   "/register",
   async (req, res) => {
     try {
-      const {
-        name,
-        email,
-        password,
-      } = req.body;
+      const name =
+        req.body.name?.trim();
+      const email = normalizeEmail(
+        req.body.email
+      );
+      const { password } = req.body;
+
+      if (!name || !email || !password) {
+        return res.status(400).json({
+          message:
+            "Please fill all fields",
+        });
+      }
+
+      if (password.length < 6) {
+        return res.status(400).json({
+          message:
+            "Password must be at least 6 characters",
+        });
+      }
 
       const userExists =
         await User.findOne({
@@ -62,11 +81,13 @@ router.post(
       res.status(201).json({
         message:
           "User Registered",
-        user,
+        user: formatUser(user),
       });
     } catch (error) {
+      console.error(error);
       res.status(500).json({
-        message: error.message,
+        message:
+          "Registration failed",
       });
     }
   }
@@ -76,13 +97,17 @@ router.post(
   "/login",
   async (req, res) => {
     try {
-      const {
-  name,
-  email,
-  password,
-} = req.body;
+      const email = normalizeEmail(
+        req.body.email
+      );
+      const { password } = req.body;
 
-console.log(req.body);
+      if (!email || !password) {
+        return res.status(400).json({
+          message:
+            "Please fill all fields",
+        });
+      }
 
       const user =
         await User.findOne({
@@ -94,7 +119,7 @@ console.log(req.body);
           .status(400)
           .json({
             message:
-              "User not found",
+              "Invalid email or password",
           });
       }
 
@@ -109,7 +134,7 @@ console.log(req.body);
           .status(400)
           .json({
             message:
-              "Wrong Password",
+              "Invalid email or password",
           });
       }
 
@@ -129,8 +154,9 @@ console.log(req.body);
         user: formatUser(user),
       });
     } catch (error) {
+      console.error(error);
       res.status(500).json({
-        message: error.message,
+        message: "Login failed",
       });
     }
   }
@@ -151,8 +177,9 @@ router.get(
 
       res.json(formatUser(user));
     } catch (error) {
+      console.error(error);
       res.status(500).json({
-        message: error.message,
+        message: "Error loading profile",
       });
     }
   }
@@ -163,7 +190,7 @@ router.put(
   protect,
   async (req, res) => {
     try {
-      const { name, role, bio } = req.body;
+      const { name, bio } = req.body;
 
       const user = await User.findById(req.user.id);
 
@@ -175,10 +202,6 @@ router.put(
 
       if (name?.trim()) {
         user.name = name.trim();
-      }
-
-      if (role !== undefined) {
-        user.role = role.trim() || "Member";
       }
 
       if (bio !== undefined) {
@@ -194,8 +217,9 @@ router.put(
         user: updatedUser,
       });
     } catch (error) {
+      console.error(error);
       res.status(500).json({
-        message: error.message,
+        message: "Error updating profile",
       });
     }
   }
@@ -252,8 +276,9 @@ router.put(
         message: "Password updated successfully",
       });
     } catch (error) {
+      console.error(error);
       res.status(500).json({
-        message: error.message,
+        message: "Error updating password",
       });
     }
   }

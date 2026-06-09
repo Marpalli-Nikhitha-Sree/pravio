@@ -28,7 +28,8 @@ function Projects() {
     toggleTask,
     deleteTask,
     getTasksByProject,
-    refreshTasks,
+    fetchProjectTasks,
+    removeProjectTasks,
   } = useContext(TaskContext);
 
   const [isProjectModalOpen, setIsProjectModalOpen] =
@@ -77,35 +78,39 @@ function Projects() {
     setPriority("Medium");
     setDueDate("");
     setIsTaskModalOpen(false);
-    refreshTasks();
     refreshProjects();
   };
 
   const toggleProjectExpand = (projectId) => {
     const newExpanded = new Set(expandedProjects);
-    if (newExpanded.has(projectId)) {
-      newExpanded.delete(projectId);
-    } else {
+    const isExpanding = !newExpanded.has(projectId);
+
+    if (isExpanding) {
       newExpanded.add(projectId);
+      fetchProjectTasks(projectId);
+    } else {
+      newExpanded.delete(projectId);
     }
     setExpandedProjects(newExpanded);
   };
 
   const handleTaskToggle = async (taskId) => {
     await toggleTask(taskId);
-    refreshTasks();
     refreshProjects();
   };
 
   const handleDeleteTask = async (taskId) => {
+    if (!window.confirm("Delete this task?")) return;
+
     await deleteTask(taskId);
-    refreshTasks();
     refreshProjects();
   };
 
   const handleDeleteProject = async (projectId) => {
+    if (!window.confirm("Delete this project and all its tasks?")) return;
+
     await deleteProject(projectId);
-    refreshTasks();
+    removeProjectTasks(projectId);
     refreshProjects();
   };
 

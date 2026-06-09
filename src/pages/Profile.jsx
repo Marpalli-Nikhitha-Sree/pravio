@@ -13,7 +13,7 @@ import "../styles/cards.css";
 import "../styles/settings.css";
 import "../styles/profile.css";
 
-const API_URL = "http://localhost:5001/api/auth";
+import { apiFetch, getToken } from "../services/api";
 function getInitials(name = "") {
   return name
     .split(" ")
@@ -57,7 +57,7 @@ function Profile() {
     confirmPassword: "",
   });
 
-  const token = localStorage.getItem("token");
+  const token = getToken();
 
   const completedTasks = tasks.filter(
     (task) => task.status === "Completed"
@@ -83,39 +83,7 @@ function Profile() {
     setMessage(null);
 
     try {
-      const response = await fetch(`${API_URL}/profile`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        if (response.status === 401) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("user");
-          navigate("/login");
-          return;
-        }
-
-        const stored = JSON.parse(localStorage.getItem("user") || "null");
-
-        if (stored) {
-          setUser(stored);
-          setForm({
-            name: stored.name || "",
-            role: stored.role || "Member",
-            bio: stored.bio || "",
-          });
-        }
-
-        setMessage({
-          text: data.message || "Could not load profile",
-          type: "error",
-        });
-        return;
-      }
+      const data = await apiFetch("/auth/profile");
 
       syncStoredUser(data);
       setForm({
@@ -158,28 +126,13 @@ function Profile() {
     setMessage(null);
 
     try {
-      const response = await fetch(`${API_URL}/profile`, {
+      const data = await apiFetch("/auth/profile", {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify({
           name: form.name.trim(),
-          role: form.role.trim(),
           bio: form.bio.trim(),
         }),
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setMessage({
-          text: data.message || "Could not update profile",
-          type: "error",
-        });
-        return;
-      }
 
       syncStoredUser(data.user);
       setEditing(false);
@@ -225,27 +178,13 @@ function Profile() {
     setMessage(null);
 
     try {
-      const response = await fetch(`${API_URL}/password`, {
+      const data = await apiFetch("/auth/password", {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify({
           currentPassword,
           newPassword,
         }),
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setMessage({
-          text: data.message || "Could not update password",
-          type: "error",
-        });
-        return;
-      }
 
       setPasswordForm({
         currentPassword: "",
@@ -386,10 +325,8 @@ function Profile() {
                       <input
                         type="text"
                         value={form.role}
-                        onChange={(e) =>
-                          setForm({ ...form, role: e.target.value })
-                        }
-                        placeholder="e.g. Student, Developer"
+                        readOnly
+                        disabled
                       />
                     </label>
 

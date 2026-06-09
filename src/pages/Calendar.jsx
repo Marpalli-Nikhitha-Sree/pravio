@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -14,34 +14,44 @@ import "../styles/cards.css";
 import "../styles/calendar.css";
 import "../styles/projectTaskRows.css";
 
+function parseLocalDate(dateStr) {
+  const [year, month, day] =
+    dateStr.split("-").map(Number);
+  return new Date(year, month - 1, day);
+}
+
+function formatLocalDate(d) {
+  if (!d) return "";
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 function CalendarPage() {
-  const { tasks } =
+  const { calendarTasks } =
     useContext(TaskContext);
 
   const [selectedDate, setSelectedDate] =
-    useState(
-      tasks.find(
-        (task) => task.dueDate
-      )
-        ? new Date(
-            tasks.find(
-              (task) =>
-                task.dueDate
-            ).dueDate
-          )
-        : new Date()
-    );
+    useState(new Date());
 
-  const formatLocalDate = (d) => {
-    if (!d) return "";
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, "0");
-    const day = String(d.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
+  useEffect(() => {
+    const firstTaskWithDate =
+      calendarTasks.find(
+        (task) => task.dueDate
+      );
+
+    if (firstTaskWithDate) {
+      setSelectedDate(
+        parseLocalDate(
+          firstTaskWithDate.dueDate
+        )
+      );
+    }
+  }, [calendarTasks]);
 
   const tasksWithDates =
-    tasks.filter(
+    calendarTasks.filter(
       (task) => task.dueDate
     );
 
@@ -130,7 +140,7 @@ function CalendarPage() {
                 selectedTasks.map(
                   (task) => (
                     <div
-                      key={task.id}
+                      key={task._id}
                       className="task-row"
                     >
                       <div>
@@ -156,10 +166,21 @@ function CalendarPage() {
                           <strong>
                             {task.title}
                           </strong>
+
+                          {task.projectId && (
+                            <span
+                              style={{
+                                fontSize: "0.8rem",
+                                color: "#6b7280",
+                              }}
+                            >
+                              (Project)
+                            </span>
+                          )}
                         </div>
 
                         <div className="task-status-label">
-                          {task.completed ? (
+                          {task.status === "Completed" ? (
                             <>
                               <i className="bi bi-check-circle-fill icon-success"></i>
                               Completed

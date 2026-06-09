@@ -37,21 +37,27 @@ function Tasks() {
   const [filter, setFilter] =
     useState("All");
 
-  const handleCreateTask = () => {
+  const handleCreateTask = async () => {
     if (!taskName.trim()) return;
 
-    addTask({
-      title: taskName,
-      completed: false,
-      priority,
-      dueDate,
-    });
+    try {
+      await addTask({
+        title: taskName,
+        completed: false,
+        priority,
+        dueDate,
+        projectId: null,
+      });
 
-    setTaskName("");
-    setPriority("Medium");
-    setDueDate("");
+      setTaskName("");
+      setPriority("Medium");
+      setDueDate("");
 
-    setIsModalOpen(false);
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error(error);
+      alert(error.message || "Failed to create task");
+    }
   };
 
   const handleEditTask = (task) => {
@@ -69,6 +75,7 @@ function Tasks() {
   };
 
   const filteredTasks = tasks
+    .filter((task) => !task.projectId)
     .filter((task) =>
       task.title
         .toLowerCase()
@@ -247,11 +254,10 @@ function Tasks() {
 
                         <button
                           className="icon-btn"
-                          onClick={() =>
-                            deleteTask(
-                              task._id
-                            )
-                          }
+                          onClick={async () => {
+                            if (!window.confirm("Delete this task?")) return;
+                            await deleteTask(task._id);
+                          }}
                         >
                           <i className="bi bi-trash3 icon-danger"></i>
                         </button>

@@ -1,70 +1,32 @@
-const API_URL =
-  "http://localhost:5001/api/projects";
-
-const getToken = () =>
-  localStorage.getItem("token");
+import { apiFetch } from "./api";
 
 export const projectService = {
-  getProjects: async () => {
-    const response = await fetch(API_URL, {
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
-    });
-    return response.json();
-  },
+  getProjects: () =>
+    apiFetch("/projects"),
 
-  getProjectTasks: async (projectId) => {
-    const response = await fetch(
-      `${API_URL}/${projectId}/tasks`,
-      {
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-        },
-      }
-    );
-    return response.json();
-  },
+  getProjectTasks: (projectId) =>
+    apiFetch(
+      `/projects/${projectId}/tasks`
+    ),
 
-  createProject: async (projectData) => {
-    const response = await fetch(API_URL, {
+  createProject: (projectData) =>
+    apiFetch("/projects", {
       method: "POST",
-      headers: {
-        "Content-Type":
-          "application/json",
-        Authorization: `Bearer ${getToken()}`,
-      },
-      body: JSON.stringify(projectData),
-    });
-    return response.json();
-  },
+      body: JSON.stringify(
+        projectData
+      ),
+    }),
 
-  updateProject: async (id, projectData) => {
-    const response = await fetch(
-      `${API_URL}/${id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type":
-            "application/json",
-          Authorization: `Bearer ${getToken()}`,
-        },
-        body: JSON.stringify(projectData),
-      }
-    );
-    return response.json();
-  },
+  updateProject: (id, projectData) =>
+    apiFetch(`/projects/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(
+        projectData
+      ),
+    }),
 
-  deleteProject: async (id) => {
-    const response = await fetch(
-      `${API_URL}/${id}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-        },
-      }
-    );
-    return response.json();
-  },
+  deleteProject: (id) =>
+    apiFetch(`/projects/${id}`, {
+      method: "DELETE",
+    }),
 };

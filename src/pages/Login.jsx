@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import FluidBackground from "../components/FluidBackground";
 import ThemeToggle from "../components/ThemeToggle";
+import { API_BASE, isAuthenticated } from "../services/api";
 
 import "../styles/auth.css";
 
@@ -13,8 +14,13 @@ function Login() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState(null);
 
+  useEffect(() => {
+    if (isAuthenticated()) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [navigate]);
+
   const handleLogin = async () => {
-    console.log("Login button clicked");
     setMessage(null);
 
     if (!email || !password) {
@@ -26,25 +32,21 @@ function Login() {
     }
 
     try {
-      console.log("Sending request...");
-
       const response = await fetch(
-        "http://localhost:5001/api/auth/login",
+        `${API_BASE}/auth/login`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            email,
+            email: email.trim().toLowerCase(),
             password,
           }),
         }
       );
 
       const data = await response.json();
-
-      console.log("Response:", data);
 
       if (!response.ok) {
         setMessage({
@@ -62,6 +64,10 @@ function Login() {
       localStorage.setItem(
         "user",
         JSON.stringify(data.user)
+      );
+
+      window.dispatchEvent(
+        new CustomEvent("auth-login")
       );
 
       setMessage({
@@ -144,9 +150,9 @@ function Login() {
 
             <p className="auth-link">
               New to Pravio?{" "}
-              <a href="/register">
+              <Link to="/register">
                 Create Account
-              </a>
+              </Link>
             </p>
 
           </div>
