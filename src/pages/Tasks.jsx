@@ -69,7 +69,6 @@ function Tasks() {
   };
 
   const filteredTasks = tasks
-    .filter((task) => !task.projectId)
     .filter((task) =>
       task.title
         .toLowerCase()
@@ -108,15 +107,10 @@ function Tasks() {
             <div className="task-card">
 
               <div className="task-card-header">
-                <div>
-                  <h2>
-                    <i className="bi bi-check2-square icon-accent"></i>
-                    {" "}Tasks
-                  </h2>
-                  <p style={{ fontSize: "0.85rem", color: "var(--lm-text-secondary)", marginTop: "4px" }}>
-                    Standalone tasks (not assigned to any project)
-                  </p>
-                </div>
+                <h2>
+                  <i className="bi bi-check2-square icon-accent"></i>
+                  {" "}Tasks
+                </h2>
 
                 <button
                   className="create-project-btn"
@@ -171,7 +165,7 @@ function Tasks() {
               </div>
 
               {filteredTasks.length === 0 ? (
-                <p>No standalone tasks found. Create a task or add tasks to projects.</p>
+                <p>No Matching Tasks</p>
               ) : (
                 filteredTasks.map((task) => (
                   <div
