@@ -32,15 +32,20 @@ function CalendarPage() {
         : new Date()
     );
 
+  const formatLocalDate = (d) => {
+    if (!d) return "";
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
   const tasksWithDates =
     tasks.filter(
       (task) => task.dueDate
     );
 
-  const selectedDateString =
-    selectedDate
-      .toISOString()
-      .split("T")[0];
+  const selectedDateString = formatLocalDate(selectedDate);
 
   const selectedTasks =
     tasksWithDates.filter(
@@ -56,9 +61,7 @@ function CalendarPage() {
     if (view !== "month")
       return null;
 
-    const dayString = date
-      .toISOString()
-      .split("T")[0];
+    const dayString = formatLocalDate(date);
 
     const hasTask =
       tasksWithDates.some(

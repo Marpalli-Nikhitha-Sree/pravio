@@ -31,6 +31,8 @@ router.post(
         description:
           req.body.description,
         status: req.body.status,
+        priority: req.body.priority,
+        dueDate: req.body.dueDate,
         userId: req.user.id,
       });
 

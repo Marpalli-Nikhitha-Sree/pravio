@@ -133,13 +133,24 @@ function Dashboard() {
                 <>
                   <ul>
                     {currentTasks.map((task) => (
-                      <li key={task._id}>
+                      <li key={task._id} style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                         <i
                           className={
                             task.status === "Completed"
                               ? "bi bi-check-circle-fill icon-success"
                               : "bi bi-circle icon-silver"
                           }
+                        ></i>
+                        <i
+                          className={`bi bi-flag-fill ${
+                            task.priority === "High"
+                              ? "icon-danger"
+                              : task.priority === "Medium"
+                              ? "icon-warning"
+                              : "icon-success"
+                          }`}
+                          title={`Priority: ${task.priority || "Medium"}`}
+                          style={{ marginRight: "4px" }}
                         ></i>
                         {task.title}
                       </li>

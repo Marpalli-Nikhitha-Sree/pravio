@@ -68,6 +68,8 @@ export function TaskProvider({
                 task.completed
                   ? "Completed"
                   : "Pending",
+              priority: task.priority,
+              dueDate: task.dueDate,
             }),
           }
         );

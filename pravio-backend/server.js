@@ -15,6 +15,7 @@ const app = express();
 console.log("CORS CONFIG LOADED");
 app.use(cors({
   origin: [
+    "http://localhost:5173",
     "https://pravio-two.vercel.app"
   ],
   credentials: true

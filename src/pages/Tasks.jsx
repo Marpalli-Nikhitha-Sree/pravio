@@ -198,6 +198,17 @@ function Tasks() {
                           }
                         />
 
+                        <i
+                          className={`bi bi-flag-fill ${
+                            task.priority === "High"
+                              ? "icon-danger"
+                              : task.priority === "Medium"
+                              ? "icon-warning"
+                              : "icon-success"
+                          }`}
+                          title={`Priority: ${task.priority || "Medium"}`}
+                        ></i>
+
                         <span
                           style={{
                             textDecoration:
@@ -247,6 +258,13 @@ function Tasks() {
                       </div>
 
                     </div>
+
+                    {task.dueDate && (
+                      <div className="task-date">
+                        <i className="bi bi-calendar-event"></i>{" "}
+                        Due: {task.dueDate}
+                      </div>
+                    )}
 
                   </div>
                 ))

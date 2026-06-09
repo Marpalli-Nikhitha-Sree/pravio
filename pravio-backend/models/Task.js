@@ -17,6 +17,16 @@ const taskSchema = new mongoose.Schema(
       default: "Pending",
     },
 
+    priority: {
+      type: String,
+      default: "Medium",
+    },
+
+    dueDate: {
+      type: String,
+      default: null,
+    },
+
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
