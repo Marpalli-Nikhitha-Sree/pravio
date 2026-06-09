@@ -214,3 +214,42 @@
         margin-left: 0 !important;
     }
 }
+
+.project-card {
+    padding: 20px;
+    margin-bottom: 16px;
+
+    border-radius: 16px;
+
+    background: rgba(255, 255, 255, 0.16);
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    transition: 0.25s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-2px);
+
+    background: rgba(255, 255, 255, 0.22);
+}
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.project-tasks {
+    margin-top: 16px;
+    padding-top: 16px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.project-tasks .task-row {
+    background: rgba(255, 255, 255, 0.1);
+
+    margin-bottom: 8px;
+}

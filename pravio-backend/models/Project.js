@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
-const taskSchema = new mongoose.Schema(
+const projectSchema = new mongoose.Schema(
   {
-    title: {
+    name: {
       type: String,
       required: true,
     },
@@ -14,12 +14,13 @@ const taskSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      default: "Pending",
+      default: "In Progress",
+      enum: ["To Do", "In Progress", "Completed"],
     },
 
-    priority: {
+    color: {
       type: String,
-      default: "Medium",
+      default: "#6366f1",
     },
 
     dueDate: {
@@ -30,12 +31,7 @@ const taskSchema = new mongoose.Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-    },
-
-    projectId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Project",
-      default: null,
+      required: true,
     },
   },
   {
@@ -44,6 +40,6 @@ const taskSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model(
-  "Task",
-  taskSchema
+  "Project",
+  projectSchema
 );

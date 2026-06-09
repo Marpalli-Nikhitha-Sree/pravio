@@ -7,7 +7,7 @@ import {
 export const TaskContext = createContext();
 
 const API_URL =
-  "https://pravio.onrender.com/api/tasks";
+  "http://localhost:5001/api/tasks";
 
 export function TaskProvider({
   children,
@@ -20,6 +20,12 @@ export function TaskProvider({
 
   useEffect(() => {
     fetchTasks();
+
+    const interval = setInterval(() => {
+      fetchTasks();
+    }, 30000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const fetchTasks = async () => {
@@ -70,6 +76,7 @@ export function TaskProvider({
                   : "Pending",
               priority: task.priority,
               dueDate: task.dueDate,
+              projectId: task.projectId || null,
             }),
           }
         );
@@ -210,6 +217,17 @@ export function TaskProvider({
       }
     };
 
+  const refreshTasks = () => {
+    fetchTasks();
+  };
+
+  const getTasksByProject = (projectId) => {
+    return tasks.filter(
+      (task) =>
+        task.projectId === projectId
+    );
+  };
+
   return (
     <TaskContext.Provider
       value={{
@@ -218,6 +236,8 @@ export function TaskProvider({
         toggleTask,
         deleteTask,
         editTask,
+        refreshTasks,
+        getTasksByProject,
       }}
     >
       {children}

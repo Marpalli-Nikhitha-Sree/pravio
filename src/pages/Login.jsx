@@ -29,7 +29,7 @@ function Login() {
       console.log("Sending request...");
 
       const response = await fetch(
-        "https://pravio.onrender.com/api/auth/login",
+        "http://localhost:5001/api/auth/login",
         {
           method: "POST",
           headers: {
