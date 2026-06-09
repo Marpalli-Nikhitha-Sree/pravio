@@ -79,11 +79,27 @@
 
 [data-theme="dark"] .priority-option{
   background:rgba(56,56,64,.50);
-  border:1px solid rgba(255,255,255,.08);
-  color:var(--dm-off-white);
+  border:2px solid rgba(255,255,255,.10);
+  color:var(--dm-light-silver);
 }
 
-[data-theme="dark"] .priority-option.is-active{
-  background:rgba(66,66,74,.60);
-  box-shadow:0 0 0 2px rgba(139,30,46,.35);
+[data-theme="dark"] .priority-option.is-active.priority-option--high{
+  background:rgba(220,80,80,.22);
+  border-color:var(--dm-icon-delete);
+  box-shadow:0 0 0 3px rgba(220,80,80,.35);
+  color:#ffb4b4;
+}
+
+[data-theme="dark"] .priority-option.is-active.priority-option--medium{
+  background:rgba(212,160,58,.22);
+  border-color:var(--dm-icon-warning);
+  box-shadow:0 0 0 3px rgba(212,160,58,.35);
+  color:#ffe0a3;
+}
+
+[data-theme="dark"] .priority-option.is-active.priority-option--low{
+  background:rgba(45,175,122,.22);
+  border-color:var(--dm-icon-success);
+  box-shadow:0 0 0 3px rgba(45,175,122,.35);
+  color:#9ae8c8;
 }

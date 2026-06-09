@@ -55,25 +55,34 @@ function CreateTaskModal({
           <label>Priority</label>
 
           <div className="priority-options">
-            {PRIORITIES.map((item) => (
-              <button
-                key={item.value}
-                type="button"
-                className={
-                  priority === item.value
-                    ? "priority-option is-active"
-                    : "priority-option"
-                }
-                onClick={() =>
-                  setPriority(item.value)
-                }
-              >
-                <i
-                  className={`bi ${item.icon} ${item.colorClass}`}
-                ></i>
-                {item.label}
-              </button>
-            ))}
+            {PRIORITIES.map((item) => {
+              const isSelected =
+                priority === item.value;
+
+              return (
+                <button
+                  key={item.value}
+                  type="button"
+                  aria-pressed={isSelected}
+                  className={
+                    isSelected
+                      ? `priority-option is-active priority-option--${item.value.toLowerCase()}`
+                      : "priority-option"
+                  }
+                  onClick={() =>
+                    setPriority(item.value)
+                  }
+                >
+                  <i
+                    className={`bi ${item.icon} ${item.colorClass}`}
+                  ></i>
+                  {item.label}
+                  {isSelected && (
+                    <i className="bi bi-check-lg priority-option__check"></i>
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
 
