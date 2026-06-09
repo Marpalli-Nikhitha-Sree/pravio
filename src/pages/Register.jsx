@@ -59,61 +59,63 @@ function Register() {
       <FluidBackground />
       <ThemeToggle floating />
 
-      <div className="hero-brand">
-        <h1 className="brand-title">
-          PRAVIO
-        </h1>
-
-        <p className="brand-tagline">
-          Flow With Purpose
-        </p>
-
-        <h2 className="brand-caption">
-          Begin Your Journey,
-          <br />
-          Turn Every Goal Into
-          <span className="achievement">
-            {" "}Progress
-          </span>
-        </h2>
-      </div>
-
       <div className="auth-page">
-        <div className="auth-card">
+        <div className="auth-container">
+          <div className="hero-brand">
+            <h1 className="brand-title">
+              PRAVIO
+            </h1>
 
-          <input
-            type="text"
-            placeholder="Full Name"
-            value={name}
-            onChange={(e) =>
-              setName(e.target.value)
-            }
-          />
+            <p className="brand-tagline">
+              Flow With Purpose
+            </p>
 
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
-          />
+            <h2 className="brand-caption">
+              Begin Your Journey,
+              <br />
+              Turn Every Goal Into
+              <span className="achievement">
+                {" "}Progress
+              </span>
+            </h2>
+          </div>
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) =>
-              setPassword(e.target.value)
-            }
-          />
+          <div className="auth-card">
 
-          <button
-            onClick={handleRegister}
-          >
-            Register
-          </button>
+            <input
+              type="text"
+              placeholder="Full Name"
+              value={name}
+              onChange={(e) =>
+                setName(e.target.value)
+              }
+            />
 
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) =>
+                setEmail(e.target.value)
+              }
+            />
+
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) =>
+                setPassword(e.target.value)
+              }
+            />
+
+            <button
+              onClick={handleRegister}
+            >
+              Register
+            </button>
+
+          </div>
         </div>
       </div>
     </>

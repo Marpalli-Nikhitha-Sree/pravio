@@ -83,7 +83,7 @@
 .welcome-card,
 .task-card,
 .activity-card{
-    min-width:320px;
+    min-width:280px;
 
     min-height:180px;
 
@@ -313,4 +313,70 @@
 .activity-card li i:not([class*="icon-"]),
 .task-card li i:not([class*="icon-"]){
     color:var(--lm-accent);
+}
+
+/* PAGINATION */
+
+.pagination-controls {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    margin-top:20px;
+    padding-top:15px;
+    border-top:1px solid rgba(255,255,255,.15);
+}
+
+.pagination-btn {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:32px;
+    height:32px;
+    border:none;
+    border-radius:8px;
+    background:rgba(255,255,255,.25);
+    border:1px solid rgba(255,255,255,.3);
+    color:var(--lm-text-primary);
+    cursor:pointer;
+    transition:.2s ease;
+}
+
+[data-theme="dark"] .pagination-btn {
+    background:rgba(255,255,255,.05);
+    border-color:rgba(255,255,255,.08);
+    color:var(--dm-off-white);
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background:rgba(255,255,255,.4);
+    transform:translateY(-1px);
+}
+
+[data-theme="dark"] .pagination-btn:hover:not(:disabled) {
+    background:rgba(255,255,255,.12);
+}
+
+.pagination-btn:disabled {
+    opacity:.4;
+    cursor:not-allowed;
+}
+
+.pagination-info {
+    font-size:.9rem;
+    font-weight:600;
+    color:var(--lm-text-secondary);
+}
+
+[data-theme="dark"] .pagination-info {
+    color:var(--dm-light-silver);
+}
+
+@media (max-width: 600px) {
+    .welcome-card,
+    .task-card,
+    .activity-card {
+        padding: 22px;
+        border-radius: 22px;
+    }
 }

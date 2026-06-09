@@ -88,66 +88,68 @@ function Login() {
       <FluidBackground />
       <ThemeToggle floating />
 
-      <div className="hero-brand">
-        <h1 className="brand-title">
-          PRAVIO
-        </h1>
-
-        <p className="brand-tagline">
-          Flow With Purpose
-        </p>
-
-        <h2 className="brand-caption">
-          When Focus Meets Intention,
-          <br />
-          Every Task Becomes
-          <span className="achievement">
-            {" "}
-            Achievement
-          </span>
-        </h2>
-      </div>
-
       <div className="auth-page">
-        <div className="auth-card">
+        <div className="auth-container">
+          <div className="hero-brand">
+            <h1 className="brand-title">
+              PRAVIO
+            </h1>
 
-          {message && (
-            <div
-              className={`auth-message auth-message--${message.type}`}
-            >
-              {message.text}
-            </div>
-          )}
+            <p className="brand-tagline">
+              Flow With Purpose
+            </p>
 
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
-          />
+            <h2 className="brand-caption">
+              When Focus Meets Intention,
+              <br />
+              Every Task Becomes
+              <span className="achievement">
+                {" "}
+                Achievement
+              </span>
+            </h2>
+          </div>
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) =>
-              setPassword(e.target.value)
-            }
-          />
+          <div className="auth-card">
 
-          <button onClick={handleLogin}>
-            Login
-          </button>
+            {message && (
+              <div
+                className={`auth-message auth-message--${message.type}`}
+              >
+                {message.text}
+              </div>
+            )}
 
-          <p className="auth-link">
-            New to Pravio?{" "}
-            <a href="/register">
-              Create Account
-            </a>
-          </p>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) =>
+                setEmail(e.target.value)
+              }
+            />
 
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) =>
+                setPassword(e.target.value)
+              }
+            />
+
+            <button onClick={handleLogin}>
+              Login
+            </button>
+
+            <p className="auth-link">
+              New to Pravio?{" "}
+              <a href="/register">
+                Create Account
+              </a>
+            </p>
+
+          </div>
         </div>
       </div>
     </>

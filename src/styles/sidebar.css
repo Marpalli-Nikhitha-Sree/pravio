@@ -131,20 +131,39 @@
       drop-shadow(0 0 8px var(--lm-accent-glow));
 }
 
+/* BACKDROP */
+
+.sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.35);
+    backdrop-filter: blur(6px);
+    z-index: 999;
+}
+
 /* MOBILE */
 
 @media(max-width:900px){
 
     .sidebar{
-        width:100%;
-        min-height:auto;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 280px;
+        height: 100vh;
+        z-index: 1000;
+        border-right: 1px solid rgba(255, 255, 255, 0.25);
+        border-bottom: none;
+        transform: translateX(-100%);
+        box-shadow: 10px 0 40px rgba(0, 0, 0, 0.15);
+    }
 
-        border-right:none;
-
-        border-bottom:1px solid rgba(255,255,255,.25);
+    .sidebar.open {
+        transform: translateX(0);
     }
 
     .sidebar .logo{
-        margin-bottom:25px;
+        margin-bottom: 35px;
     }
 }

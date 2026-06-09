@@ -21,11 +21,12 @@
 .theme-toggle__track{
   display:flex;
   align-items:center;
+  box-sizing:border-box;
 
   width:52px;
   height:28px;
 
-  padding:3px;
+  padding:2px;
 
   border-radius:999px;
 
@@ -44,6 +45,7 @@
   display:flex;
   align-items:center;
   justify-content:center;
+  box-sizing:border-box;
 
   width:22px;
   height:22px;

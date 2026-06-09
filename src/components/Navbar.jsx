@@ -34,13 +34,28 @@ function Navbar() {
     navigate("/login");
   };
 
+  const toggleSidebar = () => {
+    window.dispatchEvent(new CustomEvent("toggle-sidebar"));
+  };
+
   return (
   <div className="navbar">
 
-    <h2 className="logo">
-      <i className="bi bi-water icon-accent"></i>
-      PRAVIO
-    </h2>
+    <div className="nav-left">
+      <button
+        type="button"
+        className="hamburger-btn"
+        onClick={toggleSidebar}
+        aria-label="Toggle Menu"
+      >
+        <i className="bi bi-list"></i>
+      </button>
+
+      <h2 className="logo">
+        <i className="bi bi-water icon-accent"></i>
+        PRAVIO
+      </h2>
+    </div>
 
     <div className="nav-right">
 

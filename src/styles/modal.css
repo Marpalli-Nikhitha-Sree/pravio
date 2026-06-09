@@ -16,7 +16,7 @@
 /* MODAL CARD */
 
 .modal-card{
-    width:430px;
+    width:min(430px, 92%);
 
     padding:35px;
 

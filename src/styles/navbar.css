@@ -6,6 +6,29 @@
     padding:25px 40px;
 }
 
+.nav-left{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.hamburger-btn{
+    display:none;
+    background:none;
+    border:none;
+    color:var(--lm-text-primary);
+    font-size:1.85rem;
+    cursor:pointer;
+    align-items:center;
+    justify-content:center;
+    padding:4px;
+    transition:.2s ease;
+}
+
+.hamburger-btn:hover{
+    color:var(--lm-accent);
+}
+
 /* RIGHT */
 
 .nav-right{
@@ -141,6 +164,10 @@
 
     .navbar{
         padding:20px;
+    }
+
+    .hamburger-btn{
+        display:flex;
     }
 
     .user-badge span{

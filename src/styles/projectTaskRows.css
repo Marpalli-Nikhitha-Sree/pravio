@@ -194,3 +194,23 @@
 
     font-size:14px;
 }
+
+@media (max-width: 480px) {
+    .project-row,
+    .task-row {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 12px;
+    }
+    .project-row > div,
+    .task-row > div {
+        width: 100%;
+    }
+    .project-row .icon-btn,
+    .task-row .icon-btn {
+        align-self: flex-end;
+    }
+    .task-date {
+        margin-left: 0 !important;
+    }
+}

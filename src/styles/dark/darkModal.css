@@ -33,6 +33,10 @@
   color:var(--dm-off-white);
 }
 
+[data-theme="dark"] .modal-card input[type="date"]{
+  color-scheme: dark;
+}
+
 [data-theme="dark"] .modal-card input::placeholder{
   color:var(--dm-icon-silver);
 }

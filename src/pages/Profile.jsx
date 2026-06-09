@@ -297,11 +297,10 @@ function Profile() {
             {message && (
               <div className={`profile-message profile-message--${message.type}`}>
                 <i
-                  className={`bi ${
-                    message.type === "success"
+                  className={`bi ${message.type === "success"
                       ? "bi-check-circle-fill"
                       : "bi-exclamation-circle-fill"
-                  }`}
+                    }`}
                 ></i>
                 {message.text}
               </div>

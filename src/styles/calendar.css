@@ -173,3 +173,19 @@
     color:var(--lm-text-secondary);
     font-weight:600;
 }
+
+@media (max-width: 600px) {
+    .react-calendar {
+        padding: 12px !important;
+        border-radius: 18px !important;
+    }
+    .react-calendar__tile {
+        min-height: 50px !important;
+        padding: 8px 4px !important;
+        font-size: 0.9rem !important;
+    }
+    .react-calendar__month-view__weekdays__weekday {
+        padding: 4px !important;
+        font-size: 0.75rem !important;
+    }
+}

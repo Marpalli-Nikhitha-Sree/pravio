@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import FluidBackground from "../components/FluidBackground";
@@ -46,6 +46,14 @@ function Dashboard() {
             tasks.length) *
             100
         );
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentTasks = tasks.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(tasks.length / itemsPerPage);
 
   return (
     <>
@@ -119,26 +127,50 @@ function Dashboard() {
                 Today's Tasks
               </h2>
 
-              <ul>
+              {tasks.length === 0 ? (
+                <p>No tasks for today</p>
+              ) : (
+                <>
+                  <ul>
+                    {currentTasks.map((task) => (
+                      <li key={task._id}>
+                        <i
+                          className={
+                            task.status === "Completed"
+                              ? "bi bi-check-circle-fill icon-success"
+                              : "bi bi-circle icon-silver"
+                          }
+                        ></i>
+                        {task.title}
+                      </li>
+                    ))}
+                  </ul>
 
-                {tasks
-                  .slice(0, 5)
-                  .map((task) => (
-                    <li key={task._id}>
-                      <i
-                        className={
-                          task.status ===
-                          "Completed"
-                            ? "bi bi-check-circle-fill icon-success"
-                            : "bi bi-circle icon-silver"
-                        }
-                      ></i>
-
-                      {task.title}
-                    </li>
-                  ))}
-
-              </ul>
+                  {totalPages > 1 && (
+                    <div className="pagination-controls">
+                      <button
+                        type="button"
+                        className="pagination-btn"
+                        onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                        disabled={currentPage === 1}
+                      >
+                        <i className="bi bi-chevron-left"></i>
+                      </button>
+                      <span className="pagination-info">
+                        Page {currentPage} of {totalPages}
+                      </span>
+                      <button
+                        type="button"
+                        className="pagination-btn"
+                        onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                        disabled={currentPage === totalPages}
+                      >
+                        <i className="bi bi-chevron-right"></i>
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
 
             </div>
 
